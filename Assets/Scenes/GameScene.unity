@@ -2672,8 +2672,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19bf5f440e054fb4d93211261a149855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentLevel: 10
-  unlockedLevel: 0
+  gameData: {fileID: 11400000, guid: 65f9c203de7fe7042a7ee0a9cf23d90d, type: 2}
+  currentLevel: 0
   levelGameObjectList:
   - {fileID: 1436472474}
   - {fileID: 1761230719}
@@ -4766,6 +4766,8 @@ MonoBehaviour:
   MajorLevelSelectionPanel: {fileID: 2000916549}
   MinorLevelSelectionPanel: {fileID: 1572541140}
   WinPanel: {fileID: 971960971}
+  wrongMoveTextPrompt: {fileID: 6287536820564705046, guid: 9c7de004cdb6bce4ea98cb5ecc25d79d, type: 3}
+  wrongMoveTextPromptParent: {fileID: 1797449423}
   gameController: {fileID: 1683302911}
   carSpawner: {fileID: 0}
   scoreText: {fileID: 0}
@@ -7695,6 +7697,7 @@ RectTransform:
   - {fileID: 1984954099}
   - {fileID: 628916463}
   - {fileID: 2078943637}
+  - {fileID: 1797449424}
   m_Father: {fileID: 420833942}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8444,6 +8447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cf017f1d8d0eb41ad1a20527786477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameData: {fileID: 11400000, guid: 65f9c203de7fe7042a7ee0a9cf23d90d, type: 2}
   uiManager: {fileID: 994316917}
   carPrefab: {fileID: 2820302727500607697, guid: 0875da042ddd81246ac0e8fd257cf515, type: 3}
   difficultyLevel: 10
@@ -8453,9 +8457,244 @@ MonoBehaviour:
   canvas: {fileID: 420833941}
   scoreText: {fileID: 628916466}
   timerText: {fileID: 1984954100}
-  carAmount: 0
-  cells: []
-  randomColor: []
+  level:
+  - level: 1
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 0, g: 0, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 2
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 3
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 4
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0.6666667, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0.6666667, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0.6666667, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 5
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0.6661012, a: 1}
+    - {r: 0.62895584, g: 0, b: 1, a: 1}
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0.6661012, a: 1}
+    - {r: 0.62895584, g: 0, b: 1, a: 1}
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0.6661012, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 6
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 1, b: 0.6666667, a: 1}
+    - {r: 0.62895584, g: 0, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 1, b: 0.6666667, a: 1}
+    - {r: 0.62895584, g: 0, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 1, b: 0.6666667, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 7
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.990005, b: 1, a: 1}
+    - {r: 0.62895584, g: 0, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.990005, b: 1, a: 1}
+    - {r: 0.62895584, g: 0, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.990005, b: 1, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 8
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.990005, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.95919466, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.990005, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.95919466, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.990005, b: 1, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 9
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.54663897, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.95919466, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.54663897, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.95919466, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.54663897, b: 1, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 10
+    carAmount: 8
+    carColor:
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.54663897, b: 1, a: 1}
+    - {r: 1, g: 0.8207309, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.54663897, b: 1, a: 1}
+    - {r: 1, g: 0.8207309, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0, g: 0.54663897, b: 1, a: 1}
+    carPosition:
+    - {fileID: 778266076}
+    - {fileID: 315394511}
+    - {fileID: 1001450008}
+    - {fileID: 2133875424}
+    - {fileID: 2089046368}
+    - {fileID: 1237135559}
+    - {fileID: 1224791933}
+    - {fileID: 1359444779}
+    levelEnvironment: {fileID: 1436472474}
+  - level: 11
+    carAmount: 11
+    carColor:
+    - {r: 0.7264151, g: 0, b: 0.45578983, a: 1}
+    - {r: 0, g: 0.40625232, b: 0.745283, a: 1}
+    - {r: 1, g: 0.8207309, b: 0, a: 1}
+    - {r: 0.7264151, g: 0, b: 0.45578983, a: 1}
+    - {r: 0, g: 0.40625232, b: 0.745283, a: 1}
+    - {r: 1, g: 0.8207309, b: 0, a: 1}
+    - {r: 0.7264151, g: 0, b: 0.45578983, a: 1}
+    - {r: 0, g: 0.40625232, b: 0.745283, a: 1}
+    - {r: 1, g: 0.8207309, b: 0, a: 1}
+    - {r: 0.7264151, g: 0, b: 0.45578983, a: 1}
+    - {r: 0, g: 0.40625232, b: 0.745283, a: 1}
+    carPosition:
+    - {fileID: 17324073}
+    - {fileID: 1455850651}
+    - {fileID: 318733352}
+    - {fileID: 1367527979}
+    - {fileID: 1896263526}
+    - {fileID: 1043313208}
+    - {fileID: 497221764}
+    - {fileID: 1995074854}
+    - {fileID: 1482653199}
+    - {fileID: 321851835}
+    - {fileID: 1357388525}
+    levelEnvironment: {fileID: 1761230719}
 --- !u!1 &1698720470
 GameObject:
   m_ObjectHideFlags: 0
@@ -9000,6 +9239,67 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1797449423
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1797449424}
+  - component: {fileID: 1797449425}
+  m_Layer: 5
+  m_Name: Prompt
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1797449424
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797449423}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1472002769}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -470}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1797449425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797449423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 1000, y: 60}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 0
+  m_ConstraintCount: 2
 --- !u!1 &1804767084
 GameObject:
   m_ObjectHideFlags: 0
@@ -9946,6 +10246,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1904824409}
   m_CullTransparentMesh: 1
+--- !u!1 &1920916606
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1920916607}
+  - component: {fileID: 1920916608}
+  m_Layer: 0
+  m_Name: GameDataManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1920916607
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920916606}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1920916608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920916606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd9940d95a4c73428261c89ff158c31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameData: {fileID: 11400000, guid: 65f9c203de7fe7042a7ee0a9cf23d90d, type: 2}
 --- !u!1 &1923523620
 GameObject:
   m_ObjectHideFlags: 0

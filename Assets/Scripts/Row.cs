@@ -28,6 +28,7 @@ public class Row : MonoBehaviour
             }
         }
         cellsHavingCar.Clear();
+        Debug.Log("Row " + rowNumber + " have Same Color car");
         return true;
     }
 }

@@ -18,8 +18,7 @@ public class TouchManager : MonoBehaviour
     private bool checkCarColorInRow;
     private RaycastHit2D rayHit;
     private RaycastHit2D hitCell;
-    private readonly float carScale = 0.2f;
-    private bool selectable;
+    private readonly float carScale = 0.15f;
 
     #region Unity Methods
     private void Awake()
@@ -79,7 +78,6 @@ public class TouchManager : MonoBehaviour
                 selectedObject = rayHit.collider.gameObject;
                 selectedObject.transform.localScale += new Vector3(carScale, carScale, carScale);
                 oldParkingCell = selectedObject.GetComponent<Car>().parkingCell;
-                selectable = false;
             }
         }
         else if (Input.GetMouseButtonUp(0) && selectedObject != null && !gameOver)
@@ -90,10 +88,12 @@ public class TouchManager : MonoBehaviour
             {
                 float deltaX = Mathf.Clamp(Mathf.Abs(hitCell.collider.transform.position.x - selectedObject.transform.position.x), 0, 5);
                 float deltaY = Mathf.Clamp(Mathf.Abs(hitCell.collider.transform.position.y - selectedObject.transform.position.y), 0, 5);
-                if (deltaX <= 1.2f && deltaY <= 2.4f && (((deltaX = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0)
-                    || (deltaX > 0 && (deltaY = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0)))
+                if (deltaX <= 1.2f && deltaY <= 2.4f && 
+                    (((deltaX = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0) ||
+                    (deltaX > 0 && (deltaY = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0)))
                 {
                     oldParkingCell.IsOccupide = false;
+                    oldParkingCell.puzzleCar = null;
                     selectedObject.transform.position = hitCell.collider.gameObject.transform.position;
                     selectedObject.transform.GetComponent<Car>().SetParkingCell();
                     oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
@@ -104,8 +104,9 @@ public class TouchManager : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("X Math.Abs(" + deltaX + ")");
-                    Debug.Log("Y Math.Abs(" + deltaY + ")");
+                    //Debug.Log("X Math.Abs(" + deltaX + ")");
+                    //Debug.Log("Y Math.Abs(" + deltaY + ")");
+                    UIManager.Instance.WrongMoveTextPrompter();
                     Debug.Log("Unable To Move Except From Sides Cell");
                 }
             }
@@ -138,7 +139,10 @@ public class TouchManager : MonoBehaviour
 
     private void CheckWiningConditions()
     {
-        if (rowsList[0].IsCarColorSameInRow() && rowsList[1].IsCarColorSameInRow() && rowsList[2].IsCarColorSameInRow())
+        bool isRow1HaveSameColorCar = rowsList[0].IsCarColorSameInRow();
+        bool isRow2HaveSameColorCar = rowsList[1].IsCarColorSameInRow();
+        bool isRow3HaveSameColorCar = rowsList[2].IsCarColorSameInRow();
+        if (isRow1HaveSameColorCar && isRow2HaveSameColorCar && isRow3HaveSameColorCar)
         {
             gameOver = true;
             controller.EndGameDelay();

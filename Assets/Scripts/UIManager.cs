@@ -1,9 +1,14 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance;
+    private void Awake() => Instance = this;
+
     [Header("UI Panels")]
     public GameObject StartLoadingPanel;
     public GameObject LoadingPanel;
@@ -15,6 +20,9 @@ public class UIManager : MonoBehaviour
     public GameObject MajorLevelSelectionPanel;
     public GameObject MinorLevelSelectionPanel;
     public GameObject WinPanel;
+
+    public GameObject wrongMoveTextPrompt;
+    public GameObject wrongMoveTextPromptParent;
 
 
     public GameController gameController;
@@ -56,7 +64,7 @@ public class UIManager : MonoBehaviour
     {
         TouchManager.Instance.gameOver = false;
         GameManager.Instance.currentLevel++;
-        levelText.text = "LEVEL  " + GameManager.Instance.currentLevel.ToString();
+        levelText.text = "LEVEL  " + (1 + GameManager.Instance.currentLevel).ToString();
         GameController.Instance.StartGame();
         ActivatePanel(GamePlayPanel.name);
     }
@@ -88,5 +96,21 @@ public class UIManager : MonoBehaviour
         MajorLevelSelectionPanel.SetActive(panelToBeActivated.Equals(MajorLevelSelectionPanel));
         MinorLevelSelectionPanel.SetActive(panelToBeActivated.Equals(MinorLevelSelectionPanel));
         WinPanel.SetActive(panelToBeActivated.Equals(WinPanel));
+    }
+
+    public void WrongMoveTextPrompter()
+    {
+        GameObject wrongMoveText = Instantiate(wrongMoveTextPrompt, wrongMoveTextPromptParent.transform);
+        //List<GameObject> promptTextList = new() { wrongMoveText };
+        if (wrongMoveTextPromptParent.transform.childCount > 3)
+        {
+            Destroy(wrongMoveTextPromptParent.transform.GetChild(3).gameObject);
+        }
+        if (wrongMoveText != null) Destroy(wrongMoveText, 5f);
+    }
+
+    public void SetLevelText(int level)
+    {
+        levelText.text = "LEVEL  " + (1 + level).ToString();
     }
 }
