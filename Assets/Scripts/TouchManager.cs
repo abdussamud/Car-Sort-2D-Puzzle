@@ -71,14 +71,6 @@ public class TouchManager : MonoBehaviour
 
     private void Update()
     {
-        //if (Input.GetMouseButtonDown(0) && selectedObject == null && !gameOver)
-        //{
-        //    rayHit = Cast2DRay;
-        //    if (rayHit.collider && rayHit.collider.GetComponent<Car>().IsMoveable() && rayHit.collider.CompareTag("Car"))
-        //    {
-        //        //selectable = true;
-        //    }
-        //}
         if (Input.GetMouseButtonUp(0) && selectedObject == null && !gameOver)
         {
             rayHit = Cast2DRay;
