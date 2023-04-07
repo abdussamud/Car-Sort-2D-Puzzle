@@ -82,7 +82,7 @@ public class TouchManager : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && selectedObject == null && !gameOver)
         {
             rayHit = Cast2DRay;
-            if (rayHit.collider && rayHit.collider.CompareTag("Car"))// && selectable)
+            if (rayHit.collider && rayHit.collider.CompareTag("Car"))
             {
                 selectedObject = rayHit.collider.gameObject;
                 selectedObject.transform.localScale += new Vector3(carScale, carScale, carScale);
@@ -96,10 +96,10 @@ public class TouchManager : MonoBehaviour
             hitCell = Cast2DRayForCell;
             if (hitCell.collider && hitCell.collider.CompareTag("CarPosCell") && !hitCell.collider.GetComponent<Cell>().IsOccupide)
             {
-                if ((hitCell.collider.transform.position.x - selectedObject.transform.position.x) *
-                    (hitCell.collider.transform.position.x - selectedObject.transform.position.x) < (1.21f * 1.21f)
-                    || (hitCell.collider.transform.position.y - selectedObject.transform.position.y) *
-                    (hitCell.collider.transform.position.y - selectedObject.transform.position.y) < (2.41f * 2.41f))
+                float deltaX = Mathf.Clamp(Mathf.Abs(hitCell.collider.transform.position.x - selectedObject.transform.position.x), 0, 5);
+                float deltaY = Mathf.Clamp(Mathf.Abs(hitCell.collider.transform.position.y - selectedObject.transform.position.y), 0, 5);
+                if (deltaX <= 1.2f && deltaY <= 2.4f && (((deltaX = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0)
+                    || (deltaX > 0 && (deltaY = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0)))
                 {
                     oldParkingCell.IsOccupide = false;
                     selectedObject.transform.position = hitCell.collider.gameObject.transform.position;
@@ -109,6 +109,12 @@ public class TouchManager : MonoBehaviour
                     selectedObject.transform.localScale -= new Vector3(carScale, carScale, carScale);
                     selectedObject = null;
                     checkCarColorInRow = true;
+                }
+                else
+                {
+                    Debug.Log("X Math.Abs(" + deltaX + ")");
+                    Debug.Log("Y Math.Abs(" + deltaY + ")");
+                    Debug.Log("Unable To Move Except From Sides Cell");
                 }
             }
             if (rayHit.collider && rayHit.collider.CompareTag("Car") && selectedObject != rayHit.collider.gameObject)
