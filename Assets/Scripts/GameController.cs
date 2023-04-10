@@ -8,24 +8,36 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance;
 
-    public GameData gameData;
-    public UIManager uiManager;
-    public GameObject carPrefab;
-    public int difficultyLevel;
-    public int score;
-    public float timer;
+    [HideInInspector]
     public bool isGameOver;
-    public Canvas canvas;
-    public IEnumerator StartTime;
+    [SerializeField]
+    private GameData gameData;
+    [SerializeField]
+    private UIManager uiManager;
+    [SerializeField]
+    private GameObject carPrefab;
+    [SerializeField]
+    private int difficultyLevel;
+    [SerializeField]
+    private int score;
+    [SerializeField]
+    private float timer;
+    [SerializeField]
+    private Canvas canvas;
+    [SerializeField]
+    private IEnumerator StartTime;
 
-    public TextMeshProUGUI scoreText;
-    public TextMeshProUGUI timerText;
+    [SerializeField]
+    private TextMeshProUGUI scoreText;
+    [SerializeField]
+    private TextMeshProUGUI timerText;
 
+    [SerializeField]
+    private LevelManager[] level;
+    private int currentLevel;
     private List<GameObject> spawnedCarPrefabs = new();
 
-    public LevelManager[] level;
 
-    private int currentLevel;
 
 
     private void Awake()
@@ -85,6 +97,7 @@ public class GameController : MonoBehaviour
             gameData.unlockedLevel++;
             GameDataManager.Instance.Save();
         }
+
         // TODO: Show the victory screen and display the final score and time
         uiManager.WinPanel.SetActive(true);
         foreach (Cell parkingCell in TouchManager.Instance.parkingCells)

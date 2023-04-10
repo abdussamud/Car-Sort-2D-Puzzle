@@ -8,16 +8,14 @@ public class GameDataManager : MonoBehaviour
 
     #region Singleton
     public static GameDataManager Instance;
+
     internal readonly object gameDataFromPlayerPrefs;
 
-    private void Awake()
-    {
-        GetInstance();
-    }
+    private void Awake() => GetInstance();
 
     private void GetInstance()
     {
-        if (Instance != null) Destroy(gameObject);
+        if (Instance != null) { Destroy(gameObject); }
         else
         {
             Instance = this;
@@ -26,22 +24,16 @@ public class GameDataManager : MonoBehaviour
     }
     #endregion
 
-    private void Start()
-    {
-        Load();
-    }
+    private void Start() => Load();
 
-    private void OnApplicationQuit()
-    {
-        Save();
-    }
+    private void OnApplicationQuit() => Save();
 
     public void Save()
     {
         string gameDataString = JsonConvert.SerializeObject(gameData);
         PlayerPrefs.SetString("GameData", gameDataString);
         PlayerPrefs.Save();
-        print("GameData Saved");
+        print("Data Saved");
     }
 
     private void Load()
@@ -50,10 +42,10 @@ public class GameDataManager : MonoBehaviour
         GameData gameDataFromPlayerPrefs = JsonConvert.DeserializeObject<GameData>(gameDataString);
         if (gameDataFromPlayerPrefs == null)
         {
-            print("No GameData found.");
+            print("No Data found.");
             return;
         }
-        print("GameData Loaded");
+        print("Data Loaded");
         // Set Local GameData Variables
         gameData.unlockedLevel = gameDataFromPlayerPrefs.unlockedLevel;
         gameData.carPrefab = gameDataFromPlayerPrefs.carPrefab;
