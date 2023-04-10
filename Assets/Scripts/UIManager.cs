@@ -63,8 +63,7 @@ public class UIManager : MonoBehaviour
     public void OnNextLevelButtonClicked()
     {
         TouchManager.Instance.gameOver = false;
-        GameManager.Instance.currentLevel++;
-        levelText.text = "LEVEL  " + (1 + GameManager.Instance.currentLevel).ToString();
+        if (GameManager.Instance.currentLevel < 29) { GameManager.Instance.currentLevel++; }
         GameController.Instance.StartGame();
         ActivatePanel(GamePlayPanel.name);
     }
@@ -101,16 +100,16 @@ public class UIManager : MonoBehaviour
     public void WrongMoveTextPrompter()
     {
         GameObject wrongMoveText = Instantiate(wrongMoveTextPrompt, wrongMoveTextPromptParent.transform);
-        //List<GameObject> promptTextList = new() { wrongMoveText };
+
         if (wrongMoveTextPromptParent.transform.childCount > 3)
         {
             Destroy(wrongMoveTextPromptParent.transform.GetChild(3).gameObject);
         }
-        if (wrongMoveText != null) Destroy(wrongMoveText, 5f);
+        if (wrongMoveText != null) { Destroy(wrongMoveText, 5f); }
     }
 
-    public void SetLevelText(int level)
+    public void SetLevelText()
     {
-        levelText.text = "LEVEL  " + (1 + level).ToString();
+        levelText.text = "LEVEL  " + (1 + GameManager.Instance.currentLevel).ToString();
     }
 }

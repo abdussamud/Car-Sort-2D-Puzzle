@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class GameData : ScriptableObject
 {
-    public int unlockedLevel;
-    public int carPrefab;
     public int diamonds;
+    public int carPrefab;
+    public int unlockedLevel;
+    public int gameplaySceneBG;
 
 
     #region Data from server

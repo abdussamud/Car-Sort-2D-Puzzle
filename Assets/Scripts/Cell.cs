@@ -16,11 +16,16 @@ public class Cell : MonoBehaviour
         }
         rowNumber = (int)char.GetNumericValue(charArrayOfCell[2]);
         columnNumber = (int)char.GetNumericValue(charArrayOfCell[6]);
+        transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(!isOccupide);
     }
 
     public bool IsOccupide
     {
         get => isOccupide;
-        set => isOccupide = value;
+        set
+        {
+            isOccupide = value;
+            transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(!isOccupide);
+        }
     }
 }

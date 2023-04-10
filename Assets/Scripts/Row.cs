@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class Row : MonoBehaviour
 {
-    [HideInInspector]
-    public List<Cell> cellsHavingCar = new();
+    [HideInInspector] public List<Cell> cellsHavingCar = new();
     public Cell[] rowCells;
     public int rowNumber;
 
@@ -28,7 +27,6 @@ public class Row : MonoBehaviour
             }
         }
         cellsHavingCar.Clear();
-        Debug.Log("Row " + rowNumber + " have Same Color car");
         return true;
     }
 }

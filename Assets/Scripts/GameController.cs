@@ -24,8 +24,8 @@ public class GameController : MonoBehaviour
     private float timer;
     [SerializeField]
     private Canvas canvas;
-    [SerializeField]
-    private IEnumerator StartTime;
+
+    //private IEnumerator StartTime;
 
     [SerializeField]
     private TextMeshProUGUI scoreText;
@@ -48,24 +48,27 @@ public class GameController : MonoBehaviour
     private void Start()
     {
         StartGame();
-        UIManager.Instance.SetLevelText(currentLevel);
     }
 
     public void StartGame()
     {
         score = 100;
-        timer = 0;
+        //timer = 0;
 
+        UIManager.Instance.SetLevelText();
+        carPrefab = GameManager.Instance.carPrefabs[gameData.carPrefab];
         currentLevel = GameManager.Instance.currentLevel;
         CarInstantiate();
-        StartTime = StartTimer();
-        StartCoroutine(StartTime);
+        //StartTime = StartTimer();
+        //StartCoroutine(StartTime);
     }
 
     public void CarInstantiate()
     {
         Debug.Log("Current Level" + currentLevel);
         level[currentLevel].levelEnvironment.SetActive(true);
+        SpriteRenderer gameplaySceneBG = level[currentLevel].levelEnvironment.GetComponent<SpriteRenderer>();
+        gameplaySceneBG.sprite = GameManager.Instance.gameplaySceneBG[gameData.gameplaySceneBG];
         TouchManager.Instance.SetParkingCell();
         TouchManager.Instance.SetRowList();
         for (int i = 0; i < level[currentLevel].carAmount; i++)
@@ -92,9 +95,15 @@ public class GameController : MonoBehaviour
 
     public void EndGame()
     {
-        if (GameManager.Instance.currentLevel == gameData.unlockedLevel)
+        if (GameManager.Instance.currentLevel < 29 && GameManager.Instance.currentLevel == gameData.unlockedLevel)
         {
             gameData.unlockedLevel++;
+            gameData.diamonds += (currentLevel + 1) * 10;
+            GameDataManager.Instance.Save();
+        }
+        else
+        {
+            gameData.diamonds += 2;
             GameDataManager.Instance.Save();
         }
 
@@ -123,7 +132,7 @@ public class GameController : MonoBehaviour
 
     public void EndGameDelay()
     {
-        StopCoroutine(StartTime);
+        //StopCoroutine(StartTime);
         Invoke(nameof(EndGame), 1f);
     }
 

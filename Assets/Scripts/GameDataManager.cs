@@ -47,8 +47,9 @@ public class GameDataManager : MonoBehaviour
         }
         print("Data Loaded");
         // Set Local GameData Variables
-        gameData.unlockedLevel = gameDataFromPlayerPrefs.unlockedLevel;
-        gameData.carPrefab = gameDataFromPlayerPrefs.carPrefab;
         gameData.diamonds = gameDataFromPlayerPrefs.diamonds;
+        gameData.carPrefab = gameDataFromPlayerPrefs.carPrefab;
+        gameData.unlockedLevel = gameDataFromPlayerPrefs.unlockedLevel;
+        gameData.gameplaySceneBG = gameDataFromPlayerPrefs.gameplaySceneBG;
     }
 }

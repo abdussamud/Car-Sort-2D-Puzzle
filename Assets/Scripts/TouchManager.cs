@@ -11,7 +11,6 @@ public class TouchManager : MonoBehaviour
     public LayerMask carLayer;
     public LayerMask cellLayer;
     public List<Row> rowsList = new();
-    //public List<Car> puzzleCars = new();
     public List<Cell> parkingCells = new();
     public bool gameOver;
 
@@ -24,30 +23,6 @@ public class TouchManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) { Instance = this; } else { Destroy(gameObject); }
-
-        //Cell[] parkingCellsArray = FindObjectsOfType<Cell>();
-        //foreach (Cell parkingCell in parkingCellsArray)
-        //{
-        //    parkingCells.Add(parkingCell);
-        //}
-        //
-        //Row[] rowsArray = FindObjectsOfType<Row>();
-        //foreach (Row row in rowsArray)
-        //{
-        //    rowsList.Add(row);
-        //}
-        //
-        //Car[] puzzleCarsArray = FindObjectsOfType<Car>();
-        //foreach (Car car in puzzleCarsArray)
-        //{
-        //    puzzleCars.Add(car);
-        //}
-    }
-
-    private void Start()
-    {
-        //SetParkingCell();
-        //SetRowList();
     }
 
     public void SetParkingCell()
@@ -104,10 +79,7 @@ public class TouchManager : MonoBehaviour
                 }
                 else
                 {
-                    //Debug.Log("X Math.Abs(" + deltaX + ")");
-                    //Debug.Log("Y Math.Abs(" + deltaY + ")");
                     UIManager.Instance.WrongMoveTextPrompter();
-                    Debug.Log("Unable To Move Except From Sides Cell");
                 }
             }
             if (rayHit.collider && rayHit.collider.CompareTag("Car") && selectedObject != rayHit.collider.gameObject)
@@ -128,7 +100,6 @@ public class TouchManager : MonoBehaviour
             CheckWiningConditions();
             checkCarColorInRow = false;
         }
-
     }
     #endregion
 
@@ -139,14 +110,10 @@ public class TouchManager : MonoBehaviour
 
     private void CheckWiningConditions()
     {
-        bool isRow1HaveSameColorCar = rowsList[0].IsCarColorSameInRow();
-        bool isRow2HaveSameColorCar = rowsList[1].IsCarColorSameInRow();
-        bool isRow3HaveSameColorCar = rowsList[2].IsCarColorSameInRow();
-        if (isRow1HaveSameColorCar && isRow2HaveSameColorCar && isRow3HaveSameColorCar)
+        if (rowsList[0].IsCarColorSameInRow() && rowsList[1].IsCarColorSameInRow() && rowsList[2].IsCarColorSameInRow())
         {
             gameOver = true;
             controller.EndGameDelay();
-            Debug.Log("YouWon!");
         }
     }
     #endregion

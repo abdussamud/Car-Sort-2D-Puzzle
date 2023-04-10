@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e853c5c143414142a044099368d4721, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  unlockedLevel: 3
-  carPrefab: 0
   diamonds: 0
+  carPrefab: 1
+  unlockedLevel: 0
+  gameplaySceneBG: 2

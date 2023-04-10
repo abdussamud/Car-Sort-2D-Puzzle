@@ -9,12 +9,6 @@ public class CarSpawner : MonoBehaviour
     private int carAmount;
 
 
-    private void Awake()
-    {
-        GameManager.Instance.levelGameObjectList[GameManager.Instance.currentLevel < 10 ? 0 :
-            GameManager.Instance.currentLevel is > 9 and < 20 ? 1 : 2].SetActive(true);
-    }
-
     private void Start()
     {
         carAmount = GameManager.Instance.currentLevel < 10 ? 8 : GameManager.Instance.currentLevel is > 9 and < 20 ? 11 : 14;

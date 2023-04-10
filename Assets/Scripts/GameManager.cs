@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
 
     public GameData gameData;
     public int currentLevel;
-    public List<GameObject> levelGameObjectList;
+    public GameObject[] carPrefabs;
+    public Sprite[] gameplaySceneBG;
 
 
     private void Awake()
