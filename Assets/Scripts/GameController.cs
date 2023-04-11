@@ -16,16 +16,6 @@ public class GameController : MonoBehaviour
     private UIManager uiManager;
     [SerializeField]
     private GameObject carPrefab;
-    [SerializeField]
-    private int difficultyLevel;
-    [SerializeField]
-    private int score;
-    [SerializeField]
-    private float timer;
-    [SerializeField]
-    private Canvas canvas;
-
-    //private IEnumerator StartTime;
 
     [SerializeField]
     private TextMeshProUGUI scoreText;
@@ -52,20 +42,14 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        score = 100;
-        //timer = 0;
-
         UIManager.Instance.SetLevelText();
         carPrefab = GameManager.Instance.carPrefabs[gameData.carPrefab];
         currentLevel = GameManager.Instance.currentLevel;
         CarInstantiate();
-        //StartTime = StartTimer();
-        //StartCoroutine(StartTime);
     }
 
     public void CarInstantiate()
     {
-        Debug.Log("Current Level" + currentLevel);
         level[currentLevel].levelEnvironment.SetActive(true);
         SpriteRenderer gameplaySceneBG = level[currentLevel].levelEnvironment.GetComponent<SpriteRenderer>();
         gameplaySceneBG.sprite = GameManager.Instance.gameplaySceneBG[gameData.gameplaySceneBG];
@@ -78,18 +62,6 @@ public class GameController : MonoBehaviour
             spawnedPrefab.GetComponent<Car>().CarColor = level[currentLevel].carColor[i];
             spawnedPrefab.GetComponent<Car>().SetParkingCell();
             spawnedCarPrefabs.Add(spawnedPrefab);
-        }
-    }
-
-    private IEnumerator StartTimer()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            timer++;
-            if (score >= difficultyLevel) UpdateScore(-difficultyLevel);
-            TimeSpan timeSpan = TimeSpan.FromSeconds(timer);
-            timerText.text = string.Format("{0:D2}:{1:D2}", timeSpan.Minutes, timeSpan.Seconds);
         }
     }
 
@@ -124,15 +96,8 @@ public class GameController : MonoBehaviour
         level[currentLevel].levelEnvironment.SetActive(false);
     }
 
-    public void UpdateScore(int scoreToAdd)
-    {
-        score += scoreToAdd;
-        scoreText.text = "Score: " + score;
-    }
-
     public void EndGameDelay()
     {
-        //StopCoroutine(StartTime);
         TouchManager.Instance.gameOver = true;
         Invoke(nameof(EndGame), 1f);
     }

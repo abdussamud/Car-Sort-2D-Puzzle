@@ -18,7 +18,6 @@ public class TouchManager : MonoBehaviour
     private bool checkCarColorInRow;
     private RaycastHit2D rayHit;
     private RaycastHit2D hitCell;
-    private readonly float carScale = 0.15f;
 
     #region Unity Methods
     private void Awake()
@@ -78,8 +77,16 @@ public class TouchManager : MonoBehaviour
                     }
                     else if (deltaX > 0 && (_ = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0)
                     {
-                        gameOver = true;
-                        StartCoroutine(MoveToLeftR2R3());
+                        if (hitCell.collider.transform.position.x < selectedObject.transform.position.x)
+                        {
+                            gameOver = true;
+                            StartCoroutine(MoveToLeft());
+                        }
+                        else
+                        {
+                            gameOver = true;
+                            StartCoroutine(MoveToRight());
+                        }
                     }
                 }
                 else
@@ -147,14 +154,16 @@ public class TouchManager : MonoBehaviour
         checkCarColorInRow = true;
         gameOver = false;
     }
-    private IEnumerator MoveToLeftR2R3()
+    private IEnumerator MoveToLeft()
     {
         Vector3 startPos = selectedObject.transform.position;
-        Vector3 startPos1 = new(selectedObject.transform.position.x,selectedObject.transform.position.y + 0.7f,selectedObject.transform.position.z);
-        Vector3 startPos2 = new(selectedObject.transform.position.x - 2.2f,selectedObject.transform.position.y + 1f,selectedObject.transform.position.z);
-        Vector3 startPos3 = new(selectedObject.transform.position.x - 1.2f,selectedObject.transform.position.y + 0.7f, selectedObject.transform.position.z);
         Vector3 endPos = desiredPosition;
+        Vector3 startPos1 = new(startPos.x, startPos.y + 0.7f, startPos.z);
+        Vector3 startPos2 = new(startPos.x + 0.4f, startPos.y + 1f, startPos.z);
+        Vector3 startPos3 = new(startPos.x - 0.8f, startPos.y + 1f, startPos.z);
+        Vector3 startPos4 = new(endPos.x, endPos.y + 0.7f, endPos.z);
 
+        // Step 1 Move Back
         float elapsedTime = 0;
         float progress = 0;
         while (progress <= 1)
@@ -165,33 +174,131 @@ public class TouchManager : MonoBehaviour
             yield return null;
         }
         selectedObject.transform.position = startPos1;
+
+        // Step 2 Rotate and Move Back
         elapsedTime = 0;
         progress = 0;
         while (progress <= 1)
         {
-            selectedObject.transform.position = Vector3.Slerp(startPos1, startPos2, progress);
-            selectedObject.transform.rotation = Quaternion.AngleAxis(90, Vector3.forward);
+            selectedObject.transform.position = Vector3.Lerp(startPos1, startPos2, progress);
+            selectedObject.transform.rotation = Quaternion.AngleAxis(-90 * progress, Vector3.forward);
             elapsedTime += Time.deltaTime;
             progress = elapsedTime / DURATION;
             yield return null;
         }
         selectedObject.transform.position = startPos2;
+
+        // Step 3 Move Forward
         elapsedTime = 0;
         progress = 0;
         while (progress <= 1)
         {
-            selectedObject.transform.position = Vector3.Slerp(startPos2, startPos3, progress);
-            selectedObject.transform.rotation = Quaternion.AngleAxis(0, Vector3.forward);
+            selectedObject.transform.position = Vector3.Lerp(startPos2, startPos3, progress);
             elapsedTime += Time.deltaTime;
             progress = elapsedTime / DURATION;
             yield return null;
         }
         selectedObject.transform.position = startPos3;
+
+        // Step 4 Rotate and Move Forward
         elapsedTime = 0;
         progress = 0;
         while (progress <= 1)
         {
-            selectedObject.transform.position = Vector3.Lerp(startPos3, endPos, progress);
+            selectedObject.transform.position = Vector3.Lerp(startPos3, startPos4, progress);
+            selectedObject.transform.rotation = Quaternion.AngleAxis(-90 + (90 * progress), Vector3.forward);
+            elapsedTime += Time.deltaTime;
+            progress = elapsedTime / DURATION;
+            yield return null;
+        }
+        selectedObject.transform.position = startPos4;
+        selectedObject.transform.rotation = Quaternion.identity;
+
+        //Final Step 5 Move Foraward
+        elapsedTime = 0;
+        progress = 0;
+        while (progress <= 1)
+        {
+            selectedObject.transform.position = Vector3.Lerp(startPos4, endPos, progress);
+            elapsedTime += Time.deltaTime;
+            progress = elapsedTime / DURATION;
+            yield return null;
+        }
+        selectedObject.transform.position = endPos;
+        selectedObject.transform.GetComponent<Car>().SetParkingCell();
+        oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
+        oldParkingCell.IsOccupide = true;
+        selectedObject.GetComponent<Car>().carLights.SetActive(false);
+        selectedObject = null;
+        checkCarColorInRow = true;
+        gameOver = false;
+    }
+    private IEnumerator MoveToRight()
+    {
+        Vector3 startPos = selectedObject.transform.position;
+        Vector3 endPos = desiredPosition;
+        Vector3 startPos1 = new(startPos.x, startPos.y + 0.7f, startPos.z);
+        Vector3 startPos2 = new(startPos.x - 0.4f, startPos.y + 1f, startPos.z);
+        Vector3 startPos3 = new(startPos.x + 0.6f, endPos.y + 1f, endPos.z);
+        Vector3 startPos4 = new(endPos.x, endPos.y + 0.7f, endPos.z);
+
+        // Step 1 Move Back
+        float elapsedTime = 0;
+        float progress = 0;
+        while (progress <= 1)
+        {
+            selectedObject.transform.position = Vector3.Lerp(startPos, startPos1, progress);
+            elapsedTime += Time.deltaTime;
+            progress = elapsedTime / DURATION;
+            yield return null;
+        }
+        selectedObject.transform.position = startPos1;
+
+        // Step 2 Rotate and Move Back
+        elapsedTime = 0;
+        progress = 0;
+        while (progress <= 1)
+        {
+            selectedObject.transform.position = Vector3.Lerp(startPos1, startPos2, progress);
+            selectedObject.transform.rotation = Quaternion.AngleAxis(90 * progress, Vector3.forward);
+            elapsedTime += Time.deltaTime;
+            progress = elapsedTime / DURATION;
+            yield return null;
+        }
+        selectedObject.transform.position = startPos2;
+
+        // Step 3 Move Forward
+        elapsedTime = 0;
+        progress = 0;
+        while (progress <= 1)
+        {
+            selectedObject.transform.position = Vector3.Lerp(startPos2, startPos3, progress);
+            elapsedTime += Time.deltaTime;
+            progress = elapsedTime / DURATION;
+            yield return null;
+        }
+        selectedObject.transform.position = startPos3;
+
+        // Step 4 Rotate and Move Forward
+        elapsedTime = 0;
+        progress = 0;
+        while (progress <= 1)
+        {
+            selectedObject.transform.position = Vector3.Lerp(startPos3, startPos4, progress);
+            selectedObject.transform.rotation = Quaternion.AngleAxis(90 - (90 * progress), Vector3.forward);
+            elapsedTime += Time.deltaTime;
+            progress = elapsedTime / DURATION;
+            yield return null;
+        }
+        selectedObject.transform.position = startPos4;
+        selectedObject.transform.rotation = Quaternion.identity;
+
+        //Final Step 5 Move Foraward
+        elapsedTime = 0;
+        progress = 0;
+        while (progress <= 1)
+        {
+            selectedObject.transform.position = Vector3.Lerp(startPos4, endPos, progress);
             elapsedTime += Time.deltaTime;
             progress = elapsedTime / DURATION;
             yield return null;
@@ -220,74 +327,5 @@ public class TouchManager : MonoBehaviour
         {
             yield return Vector3.Slerp(startRelativeCenter, endRelativeCenter, i) + centerPivot;
         }
-    }
-    private IEnumerator MoveToRightR2R3()
-    {
-        Vector3 startPos = selectedObject.transform.position;
-        Vector3 endPos = desiredPosition;
-
-        float elapsedTime = 0;
-        float progress = 0;
-        while (progress <= 1)
-        {
-            selectedObject.transform.position = Vector3.Lerp(startPos, endPos, progress);
-            elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
-            yield return null;
-        }
-        selectedObject.transform.position = endPos;
-        selectedObject.transform.GetComponent<Car>().SetParkingCell();
-        oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
-        oldParkingCell.IsOccupide = true;
-        selectedObject.GetComponent<Car>().carLights.SetActive(false);
-        selectedObject = null;
-        checkCarColorInRow = true;
-        gameOver = false;
-    }
-    private IEnumerator MoveToLeftR1()
-    {
-        Vector3 startPos = selectedObject.transform.position;
-        Vector3 endPos = desiredPosition;
-
-        float elapsedTime = 0;
-        float progress = 0;
-        while (progress <= 1)
-        {
-            selectedObject.transform.position = Vector3.Lerp(startPos, endPos, progress);
-            elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
-            yield return null;
-        }
-        selectedObject.transform.position = endPos;
-        selectedObject.transform.GetComponent<Car>().SetParkingCell();
-        oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
-        oldParkingCell.IsOccupide = true;
-        selectedObject.GetComponent<Car>().carLights.SetActive(false);
-        selectedObject = null;
-        checkCarColorInRow = true;
-        gameOver = false;
-    }
-    private IEnumerator MoveToRightR1()
-    {
-        Vector3 startPos = selectedObject.transform.position;
-        Vector3 endPos = desiredPosition;
-
-        float elapsedTime = 0;
-        float progress = 0;
-        while (progress <= 1)
-        {
-            selectedObject.transform.position = Vector3.Lerp(startPos, endPos, progress);
-            elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
-            yield return null;
-        }
-        selectedObject.transform.position = endPos;
-        selectedObject.transform.GetComponent<Car>().SetParkingCell();
-        oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
-        oldParkingCell.IsOccupide = true;
-        selectedObject.GetComponent<Car>().carLights.SetActive(false);
-        selectedObject = null;
-        checkCarColorInRow = true;
-        gameOver = false;
     }
 }

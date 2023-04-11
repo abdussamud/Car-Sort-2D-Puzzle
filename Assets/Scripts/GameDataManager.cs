@@ -33,19 +33,21 @@ public class GameDataManager : MonoBehaviour
         string gameDataString = JsonConvert.SerializeObject(gameData);
         PlayerPrefs.SetString("GameData", gameDataString);
         PlayerPrefs.Save();
-        print("Data Saved");
+        //print("Data Saved");
     }
 
     private void Load()
     {
         string gameDataString = PlayerPrefs.GetString("GameData");
-        GameData gameDataFromPlayerPrefs = JsonConvert.DeserializeObject<GameData>(gameDataString);
+        GameData gameDataFromPlayerPrefs;
+        _ = (GameData)ScriptableObject.CreateInstance(typeof(GameData));
+        gameDataFromPlayerPrefs = JsonConvert.DeserializeObject<GameData>(gameDataString);
         if (gameDataFromPlayerPrefs == null)
         {
             print("No Data found.");
             return;
         }
-        print("Data Loaded");
+        //print("Data Loaded");
         // Set Local GameData Variables
         gameData.diamonds = gameDataFromPlayerPrefs.diamonds;
         gameData.carPrefab = gameDataFromPlayerPrefs.carPrefab;
