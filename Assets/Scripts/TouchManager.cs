@@ -4,44 +4,28 @@ using UnityEngine;
 
 public class TouchManager : MonoBehaviour
 {
+    #region Variables
     public static TouchManager Instance;
 
-    public GameObject selectedObject;
     public GameController controller;
+    public GameObject selectedObject;
     public Cell oldParkingCell;
     public LayerMask carLayer;
     public LayerMask cellLayer;
-    public List<Row> rowsList = new();
-    public List<Cell> parkingCells = new();
-    public bool gameOver;
-
-    private bool checkCarColorInRow;
     private RaycastHit2D rayHit;
     private RaycastHit2D hitCell;
+    public bool gameOver;
+    private bool checkCarColorInRow;
+    public List<Row> rowsList = new();
+    public List<Cell> parkingCells = new();
+    private const float DURATION = 1f;
+    private const float DURATION1 = 0.5f;
+    private Vector3 desiredPosition;
+    #endregion
+
 
     #region Unity Methods
-    private void Awake()
-    {
-        if (Instance == null) { Instance = this; } else { Destroy(gameObject); }
-    }
-
-    public void SetParkingCell()
-    {
-        Cell[] parkingCellsArray = FindObjectsOfType<Cell>();
-        foreach (Cell parkingCell in parkingCellsArray)
-        {
-            parkingCells.Add(parkingCell);
-        }
-    }
-
-    public void SetRowList()
-    {
-        Row[] rowsArray = FindObjectsOfType<Row>();
-        foreach (Row row in rowsArray)
-        {
-            rowsList.Add(row);
-        }
-    }
+    private void Awake() => Instance = this;
 
     private void Update()
     {
@@ -129,11 +113,7 @@ public class TouchManager : MonoBehaviour
             controller.EndGameDelay();
         }
     }
-    #endregion
 
-    private const float DURATION = 1f;
-    private const float DURATION1 = 0.5f;
-    private Vector3 desiredPosition;
     private IEnumerator StraightCarMotion()
     {
 
@@ -159,6 +139,7 @@ public class TouchManager : MonoBehaviour
         checkCarColorInRow = true;
         gameOver = false;
     }
+    
     private IEnumerator MoveToLeft()
     {
         Vector3 startPos = selectedObject.transform.position;
@@ -236,6 +217,7 @@ public class TouchManager : MonoBehaviour
         checkCarColorInRow = true;
         gameOver = false;
     }
+    
     private IEnumerator MoveToRight()
     {
         Vector3 startPos = selectedObject.transform.position;
@@ -313,4 +295,25 @@ public class TouchManager : MonoBehaviour
         checkCarColorInRow = true;
         gameOver = false;
     }
+    #endregion
+
+    #region Public Methods
+    public void SetParkingCell()
+    {
+        Cell[] parkingCellsArray = FindObjectsOfType<Cell>();
+        foreach (Cell parkingCell in parkingCellsArray)
+        {
+            parkingCells.Add(parkingCell);
+        }
+    }
+
+    public void SetRowList()
+    {
+        Row[] rowsArray = FindObjectsOfType<Row>();
+        foreach (Row row in rowsArray)
+        {
+            rowsList.Add(row);
+        }
+    }
+    #endregion
 }

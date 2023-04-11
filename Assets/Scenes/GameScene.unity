@@ -9209,7 +9209,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LEVEL  1
+  m_text: LEVEL  1https://github.com/UnityTechnologies/open-project-1.git
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -9236,7 +9236,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 101.14
+  m_fontSize: 22.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10609,10 +10609,6 @@ MonoBehaviour:
   gameData: {fileID: 11400000, guid: 65f9c203de7fe7042a7ee0a9cf23d90d, type: 2}
   uiManager: {fileID: 994316917}
   carPrefab: {fileID: 2820302727500607697, guid: 0875da042ddd81246ac0e8fd257cf515, type: 3}
-  difficultyLevel: 10
-  score: 100
-  timer: 0
-  canvas: {fileID: 420833941}
   scoreText: {fileID: 628916466}
   timerText: {fileID: 1984954100}
   level:
@@ -11426,6 +11422,7 @@ MonoBehaviour:
     - {fileID: 1946684019}
     - {fileID: 678071320}
     levelEnvironment: {fileID: 1698720470}
+  spawnedCarPrefabs: []
 --- !u!1 &1698720470
 GameObject:
   m_ObjectHideFlags: 0
