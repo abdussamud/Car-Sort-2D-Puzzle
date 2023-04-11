@@ -73,10 +73,12 @@ public class TouchManager : MonoBehaviour
                     if ((_ = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0)
                     {
                         gameOver = true;
+                        selectedObject.GetComponent<Car>().CreateDust();
                         StartCoroutine(StraightCarMotion());
                     }
                     else if (deltaX > 0 && (_ = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0)
                     {
+                        selectedObject.GetComponent<Car>().CreateDust();
                         if (hitCell.collider.transform.position.x < selectedObject.transform.position.x)
                         {
                             gameOver = true;
@@ -130,9 +132,11 @@ public class TouchManager : MonoBehaviour
     #endregion
 
     private const float DURATION = 1f;
+    private const float DURATION1 = 0.5f;
     private Vector3 desiredPosition;
     private IEnumerator StraightCarMotion()
     {
+
         Vector3 startPos = selectedObject.transform.position;
         Vector3 endPos = desiredPosition;
 
@@ -150,6 +154,7 @@ public class TouchManager : MonoBehaviour
         oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
         oldParkingCell.IsOccupide = true;
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
+        selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
         checkCarColorInRow = true;
         gameOver = false;
@@ -170,7 +175,7 @@ public class TouchManager : MonoBehaviour
         {
             selectedObject.transform.position = Vector3.Lerp(startPos, startPos1, progress);
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
         selectedObject.transform.position = startPos1;
@@ -180,10 +185,9 @@ public class TouchManager : MonoBehaviour
         progress = 0;
         while (progress <= 1)
         {
-            selectedObject.transform.position = Vector3.Lerp(startPos1, startPos2, progress);
-            selectedObject.transform.rotation = Quaternion.AngleAxis(-90 * progress, Vector3.forward);
+            selectedObject.transform.SetPositionAndRotation(Vector3.Lerp(startPos1, startPos2, progress), Quaternion.AngleAxis(-90 * progress, Vector3.forward));
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
         selectedObject.transform.position = startPos2;
@@ -195,7 +199,7 @@ public class TouchManager : MonoBehaviour
         {
             selectedObject.transform.position = Vector3.Lerp(startPos2, startPos3, progress);
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
         selectedObject.transform.position = startPos3;
@@ -205,14 +209,12 @@ public class TouchManager : MonoBehaviour
         progress = 0;
         while (progress <= 1)
         {
-            selectedObject.transform.position = Vector3.Lerp(startPos3, startPos4, progress);
-            selectedObject.transform.rotation = Quaternion.AngleAxis(-90 + (90 * progress), Vector3.forward);
+            selectedObject.transform.SetPositionAndRotation(Vector3.Lerp(startPos3, startPos4, progress), Quaternion.AngleAxis(-90 + (90 * progress), Vector3.forward));
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
-        selectedObject.transform.position = startPos4;
-        selectedObject.transform.rotation = Quaternion.identity;
+        selectedObject.transform.SetPositionAndRotation(startPos4, Quaternion.identity);
 
         //Final Step 5 Move Foraward
         elapsedTime = 0;
@@ -221,7 +223,7 @@ public class TouchManager : MonoBehaviour
         {
             selectedObject.transform.position = Vector3.Lerp(startPos4, endPos, progress);
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
         selectedObject.transform.position = endPos;
@@ -229,6 +231,7 @@ public class TouchManager : MonoBehaviour
         oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
         oldParkingCell.IsOccupide = true;
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
+        selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
         checkCarColorInRow = true;
         gameOver = false;
@@ -249,7 +252,7 @@ public class TouchManager : MonoBehaviour
         {
             selectedObject.transform.position = Vector3.Lerp(startPos, startPos1, progress);
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
         selectedObject.transform.position = startPos1;
@@ -259,10 +262,9 @@ public class TouchManager : MonoBehaviour
         progress = 0;
         while (progress <= 1)
         {
-            selectedObject.transform.position = Vector3.Lerp(startPos1, startPos2, progress);
-            selectedObject.transform.rotation = Quaternion.AngleAxis(90 * progress, Vector3.forward);
+            selectedObject.transform.SetPositionAndRotation(Vector3.Lerp(startPos1, startPos2, progress), Quaternion.AngleAxis(90 * progress, Vector3.forward));
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
         selectedObject.transform.position = startPos2;
@@ -274,7 +276,7 @@ public class TouchManager : MonoBehaviour
         {
             selectedObject.transform.position = Vector3.Lerp(startPos2, startPos3, progress);
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
         selectedObject.transform.position = startPos3;
@@ -284,14 +286,12 @@ public class TouchManager : MonoBehaviour
         progress = 0;
         while (progress <= 1)
         {
-            selectedObject.transform.position = Vector3.Lerp(startPos3, startPos4, progress);
-            selectedObject.transform.rotation = Quaternion.AngleAxis(90 - (90 * progress), Vector3.forward);
+            selectedObject.transform.SetPositionAndRotation(Vector3.Lerp(startPos3, startPos4, progress), Quaternion.AngleAxis(90 - (90 * progress), Vector3.forward));
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
-        selectedObject.transform.position = startPos4;
-        selectedObject.transform.rotation = Quaternion.identity;
+        selectedObject.transform.SetPositionAndRotation(startPos4, Quaternion.identity);
 
         //Final Step 5 Move Foraward
         elapsedTime = 0;
@@ -300,7 +300,7 @@ public class TouchManager : MonoBehaviour
         {
             selectedObject.transform.position = Vector3.Lerp(startPos4, endPos, progress);
             elapsedTime += Time.deltaTime;
-            progress = elapsedTime / DURATION;
+            progress = elapsedTime / DURATION1;
             yield return null;
         }
         selectedObject.transform.position = endPos;
@@ -308,24 +308,9 @@ public class TouchManager : MonoBehaviour
         oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
         oldParkingCell.IsOccupide = true;
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
+        selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
         checkCarColorInRow = true;
         gameOver = false;
-    }
-    IEnumerator<Vector3> EvaluateSlerpPoints(Vector3 start, Vector3 end, float centerOffset)
-    {
-        var centerPivot = (start + end) * 0.5f;
-
-        centerPivot -= new Vector3(0, -centerOffset);
-
-        var startRelativeCenter = start - centerPivot;
-        var endRelativeCenter = end - centerPivot;
-
-        var f = 1f / 10;
-
-        for (var i = 0f; i < 1 + f; i += f)
-        {
-            yield return Vector3.Slerp(startRelativeCenter, endRelativeCenter, i) + centerPivot;
-        }
     }
 }

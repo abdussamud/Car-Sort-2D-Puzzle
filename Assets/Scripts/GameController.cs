@@ -1,8 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+
 
 public class GameController : MonoBehaviour
 {
@@ -24,10 +24,9 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private LevelManager[] level;
-    private int currentLevel;
+    [SerializeField]
     private List<GameObject> spawnedCarPrefabs = new();
-
-
+    private int currentLevel;
 
 
     private void Awake()
