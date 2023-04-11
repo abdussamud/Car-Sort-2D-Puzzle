@@ -133,6 +133,7 @@ public class GameController : MonoBehaviour
     public void EndGameDelay()
     {
         //StopCoroutine(StartTime);
+        TouchManager.Instance.gameOver = true;
         Invoke(nameof(EndGame), 1f);
     }
 

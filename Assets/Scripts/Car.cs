@@ -4,6 +4,7 @@ public class Car : MonoBehaviour
 {
     public Color carColor;
     public Cell parkingCell;
+    public GameObject carLights;
 
 
     private void SetCarColor() => gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = carColor;

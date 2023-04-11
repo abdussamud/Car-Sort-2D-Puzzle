@@ -9176,10 +9176,10 @@ RectTransform:
   m_Father: {fileID: 1472002769}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 665}
-  m_SizeDelta: {x: 518.796, y: 124.8628}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -295}
+  m_SizeDelta: {x: 518.796, y: 124.86279}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1414699056
 CanvasRenderer:
@@ -9451,7 +9451,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1436472475
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10643,9 +10643,9 @@ MonoBehaviour:
     - {r: 1, g: 0, b: 0, a: 1}
     - {r: 0, g: 1, b: 0, a: 1}
     - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 1, g: 0, b: 0, a: 1}
-    - {r: 0, g: 1, b: 0, a: 1}
     - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 1, g: 0, b: 0, a: 1}
     - {r: 1, g: 0, b: 0, a: 1}
     - {r: 0, g: 1, b: 0, a: 1}
     carPosition:
@@ -10656,19 +10656,19 @@ MonoBehaviour:
     - {fileID: 2089046368}
     - {fileID: 1237135559}
     - {fileID: 1224791933}
-    - {fileID: 1359444779}
+    - {fileID: 1212139071}
     levelEnvironment: {fileID: 1436472474}
   - level: 3
     carAmount: 8
     carColor:
     - {r: 1, g: 0.5647059, b: 0, a: 1}
-    - {r: 0, g: 1, b: 0, a: 1}
-    - {r: 1, g: 1, b: 0, a: 1}
     - {r: 1, g: 0.5647059, b: 0, a: 1}
     - {r: 0, g: 1, b: 0, a: 1}
     - {r: 1, g: 1, b: 0, a: 1}
+    - {r: 0, g: 1, b: 0, a: 1}
     - {r: 1, g: 0.5647059, b: 0, a: 1}
     - {r: 0, g: 1, b: 0, a: 1}
+    - {r: 1, g: 1, b: 0, a: 1}
     carPosition:
     - {fileID: 778266076}
     - {fileID: 315394511}
@@ -10677,7 +10677,7 @@ MonoBehaviour:
     - {fileID: 2089046368}
     - {fileID: 1237135559}
     - {fileID: 1224791933}
-    - {fileID: 1359444779}
+    - {fileID: 1212139071}
     levelEnvironment: {fileID: 1436472474}
   - level: 4
     carAmount: 8
@@ -10685,11 +10685,11 @@ MonoBehaviour:
     - {r: 1, g: 0.5647059, b: 0, a: 1}
     - {r: 0, g: 1, b: 0.6666667, a: 1}
     - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 1, g: 0.5647059, b: 0, a: 1}
     - {r: 0, g: 1, b: 0.6666667, a: 1}
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
     - {r: 1, g: 1, b: 0, a: 1}
-    - {r: 1, g: 0.5647059, b: 0, a: 1}
     - {r: 0, g: 1, b: 0.6666667, a: 1}
+    - {r: 1, g: 0.5647059, b: 0, a: 1}
     carPosition:
     - {fileID: 778266076}
     - {fileID: 315394511}
@@ -10697,106 +10697,105 @@ MonoBehaviour:
     - {fileID: 2133875424}
     - {fileID: 2089046368}
     - {fileID: 1237135559}
-    - {fileID: 1224791933}
     - {fileID: 1359444779}
+    - {fileID: 1212139071}
     levelEnvironment: {fileID: 1436472474}
   - level: 5
     carAmount: 8
     carColor:
     - {r: 1, g: 0.5647059, b: 0, a: 1}
+    - {r: 0.62895584, g: 0, b: 1, a: 1}
     - {r: 0, g: 1, b: 0.6661012, a: 1}
     - {r: 0.62895584, g: 0, b: 1, a: 1}
+    - {r: 0, g: 1, b: 0.6661012, a: 1}
     - {r: 1, g: 0.5647059, b: 0, a: 1}
     - {r: 0, g: 1, b: 0.6661012, a: 1}
-    - {r: 0.62895584, g: 0, b: 1, a: 1}
     - {r: 1, g: 0.5647059, b: 0, a: 1}
-    - {r: 0, g: 1, b: 0.6661012, a: 1}
     carPosition:
     - {fileID: 778266076}
     - {fileID: 315394511}
     - {fileID: 1001450008}
     - {fileID: 2133875424}
-    - {fileID: 2089046368}
     - {fileID: 1237135559}
     - {fileID: 1224791933}
     - {fileID: 1359444779}
+    - {fileID: 1212139071}
     levelEnvironment: {fileID: 1436472474}
   - level: 6
     carAmount: 8
     carColor:
     - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 1, b: 0.6666667, a: 1}
-    - {r: 0.62895584, g: 0, b: 1, a: 1}
     - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0.62895584, g: 0, b: 1, a: 1}
     - {r: 0, g: 1, b: 0.6666667, a: 1}
     - {r: 0.62895584, g: 0, b: 1, a: 1}
-    - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 1, b: 0.6666667, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
     carPosition:
     - {fileID: 778266076}
     - {fileID: 315394511}
     - {fileID: 1001450008}
-    - {fileID: 2133875424}
     - {fileID: 2089046368}
     - {fileID: 1237135559}
     - {fileID: 1224791933}
     - {fileID: 1359444779}
+    - {fileID: 1212139071}
     levelEnvironment: {fileID: 1436472474}
   - level: 7
     carAmount: 8
     carColor:
+    - {r: 0, g: 0.990005, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 0.62895584, g: 0, b: 1, a: 1}
+    - {r: 0, g: 0.990005, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 0.990005, b: 1, a: 1}
     - {r: 0.62895584, g: 0, b: 1, a: 1}
-    - {r: 1, g: 0, b: 0.62804985, a: 1}
-    - {r: 0, g: 0.990005, b: 1, a: 1}
-    - {r: 0.62895584, g: 0, b: 1, a: 1}
-    - {r: 1, g: 0, b: 0.62804985, a: 1}
-    - {r: 0, g: 0.990005, b: 1, a: 1}
     carPosition:
     - {fileID: 778266076}
     - {fileID: 315394511}
-    - {fileID: 1001450008}
     - {fileID: 2133875424}
     - {fileID: 2089046368}
     - {fileID: 1237135559}
     - {fileID: 1224791933}
     - {fileID: 1359444779}
+    - {fileID: 1212139071}
     levelEnvironment: {fileID: 1436472474}
   - level: 8
     carAmount: 8
     carColor:
-    - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 0.990005, b: 1, a: 1}
     - {r: 1, g: 0, b: 0.95919466, a: 1}
-    - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 0.990005, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 1, g: 0, b: 0.95919466, a: 1}
-    - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 0.990005, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
     carPosition:
     - {fileID: 778266076}
-    - {fileID: 315394511}
     - {fileID: 1001450008}
     - {fileID: 2133875424}
     - {fileID: 2089046368}
     - {fileID: 1237135559}
     - {fileID: 1224791933}
     - {fileID: 1359444779}
+    - {fileID: 1212139071}
     levelEnvironment: {fileID: 1436472474}
   - level: 9
     carAmount: 8
     carColor:
-    - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 0.54663897, b: 1, a: 1}
     - {r: 1, g: 0, b: 0.95919466, a: 1}
+    - {r: 0, g: 0.54663897, b: 1, a: 1}
     - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 0.54663897, b: 1, a: 1}
+    - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 1, g: 0, b: 0.95919466, a: 1}
     - {r: 1, g: 0, b: 0.62804985, a: 1}
-    - {r: 0, g: 0.54663897, b: 1, a: 1}
     carPosition:
-    - {fileID: 778266076}
     - {fileID: 315394511}
     - {fileID: 1001450008}
     - {fileID: 2133875424}
@@ -10804,16 +10803,17 @@ MonoBehaviour:
     - {fileID: 1237135559}
     - {fileID: 1224791933}
     - {fileID: 1359444779}
+    - {fileID: 1212139071}
     levelEnvironment: {fileID: 1436472474}
   - level: 10
     carAmount: 8
     carColor:
     - {r: 1, g: 0, b: 0.62804985, a: 1}
+    - {r: 1, g: 0.8207309, b: 0, a: 1}
     - {r: 0, g: 0.54663897, b: 1, a: 1}
     - {r: 1, g: 0.8207309, b: 0, a: 1}
     - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 0.54663897, b: 1, a: 1}
-    - {r: 1, g: 0.8207309, b: 0, a: 1}
     - {r: 1, g: 0, b: 0.62804985, a: 1}
     - {r: 0, g: 0.54663897, b: 1, a: 1}
     carPosition:
@@ -10821,10 +10821,10 @@ MonoBehaviour:
     - {fileID: 315394511}
     - {fileID: 1001450008}
     - {fileID: 2133875424}
-    - {fileID: 2089046368}
     - {fileID: 1237135559}
     - {fileID: 1224791933}
     - {fileID: 1359444779}
+    - {fileID: 1212139071}
     levelEnvironment: {fileID: 1436472474}
   - level: 11
     carAmount: 11
