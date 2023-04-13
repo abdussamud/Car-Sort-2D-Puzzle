@@ -2,14 +2,13 @@ using DG.Tweening;
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
 public class UIManager : MonoBehaviour
 {
+    #region Fields
     public static UIManager Instance;
-    private void Awake() => Instance = this;
     public GameData gameData;
 
     [Header("UI Panels")]
@@ -23,17 +22,24 @@ public class UIManager : MonoBehaviour
     public GameObject exitGamePanel;
     public GameObject rateUsPanel;
     public GameObject skipLevelPanel;
+    public GameObject buyMovePanel;
     public GameObject gamePlayPanel;
     public GameObject levelPausedPanel;
     public GameObject levelCompletedPanel;
     public GameObject levelFailedPanel;
     public GameObject[] panelsArray;
 
-    [Header("Start Loading")]
+
+    [Header("Start Loading and Loading")]
     public Image startLoadingInner;
-    [Header("Loading")]
     public Image loadingInner;
-    [Header("Main Menu")]
+    [Header("LevelSelection")]
+    public GameObject[] levelLocks;
+    [Header("Settings Panel")]
+    public GameObject settingExitForMain;
+    public GameObject settingExitForGamePlay;
+    [Header("Game Play")]
+    public TextMeshProUGUI levelMoves;
 
     public GameObject wrongMoveTextPrompt;
     public GameObject wrongMoveTextPromptParent;
@@ -42,54 +48,65 @@ public class UIManager : MonoBehaviour
     public Text scoreText;
     public TextMeshProUGUI timerText;
     public TextMeshProUGUI levelText;
-    public Button hintButton;
+    public int levelSelected;
+    #endregion
 
+
+    #region Unity Methods
+    private void Awake() { Instance = this; }
 
     private void Start()
     {
-        PanelActivate(startLoadingPanel.name);
-        StartCoroutine(StartLoading());
+        _ = StartCoroutine(StartLoading());
     }
+    #endregion
 
-
-    // Start Loading
     #region Start Loading
     private IEnumerator StartLoading()
     {
+        PanelActivate(startLoadingPanel.name);
         startLoadingInner.DOFillAmount(1, 9);
         yield return new WaitForSecondsRealtime(9f);
-        PanelActivate(mainMenuPanel.name);
+        GoHome();
     }
     #endregion
 
-    // Loading
     #region Loading
-    public void LoadingComplete()
+    private IEnumerator Loading(GameObject _goto)
     {
+        ThingsToEnable_or_Disables(_goto);
+        PanelActivate(loadingPanel.name);
+        loadingInner.DOFillAmount(1, 9);
+        yield return new WaitForSecondsRealtime(9f);
+        PanelActivate(_goto.name);
+        loadingInner.fillAmount = 0;
+    }
 
+    private void ThingsToEnable_or_Disables(GameObject Panel)
+    {
+        if (Panel == levelSelectionPanel)
+        {
+            for (int i = 0; i <= gameData.unlockedLevel; i++)
+            {
+                levelLocks[i].SetActive(false);
+            }
+        }
+        else if (Panel == gamePlayPanel)
+        {
+            GameController.Instance.StartGame();
+        }
     }
     #endregion
 
-    // Main Menu Button Functions
     #region Main Menu
     public void OnGameExitButtonClicked()
     {
         PanelActivate(exitGamePanel.name);
     }
 
-    public void OnStoreButtonClicked()
-    {
-        PanelActivate(storePanel.name);
-    }
-
-    public void OnSettingsButtonClicked()
-    {
-        PanelActivate(settingsPanel.name);
-    }
-
     public void OnStartButtonClicked()
     {
-        PanelActivate(levelSelectionPanel.name);
+        _ = StartCoroutine(Loading(levelSelectionPanel));
     }
 
     public void OnRateUsButtonClicked()
@@ -108,96 +125,21 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
-    // Level Selection
     #region Level Selection
-    public void OnLevelSelectionExitButtonClicked()
-    {
-        PanelActivate(mainMenuPanel.name);
-    }
-
     public void OnLevelButtonClicked(int level)
     {
         if (level <= gameData.unlockedLevel)
         {
-            PanelActivate(loadingPanel.name);
+            levelSelected = level;
+            _ = StartCoroutine(Loading(gamePlayPanel));
         }
     }
     #endregion
 
-    #region Public Methods
-    public void PanelActivate(string panelName)
+    #region Game Play
+    public void SetLevelText()
     {
-        foreach (GameObject panel in panelsArray)
-        {
-            panel.SetActive(panelName.Equals(panel.name));
-        }
-    }
-
-    public void OnGoHomeButtonClicked()
-    {
-        PanelActivate(mainMenuPanel.name);
-    }
-    #endregion
-
-
-
-    public void UpdateScoreUI(int score)
-    {
-        scoreText.text = "Score: " + score;
-    }
-
-    public void UpdateTimerUI(float time)
-    {
-        timerText.text = "Time: " + time.ToString("F0");
-    }
-
-    public void ToggleHintButton(bool isActive)
-    {
-        hintButton.gameObject.SetActive(isActive);
-    }
-
-    public void OnHintButtonClick()
-    {
-        // TODO: Implement the hint system
-    }
-
-    public void OnRetryButtonCliked()
-    {
-        GameController.Instance.ResetCarPosition();
-    }
-
-    public void OnNextLevelButtonClicked()
-    {
-        TouchManager.Instance.gameOver = false;
-        if (GameManager.Instance.currentLevel < 29) { GameManager.Instance.currentLevel++; }
-        GameController.Instance.StartGame();
-        //ActivatePanel(GamePlayPanel.name);
-    }
-
-    public void ActivatePanel(string panelToBeActivated)
-    {
-        startLoadingPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        loadingPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        mainMenuPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        levelSelectionPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        settingsPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        storePanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        diamondStatsImage.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        exitGamePanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        rateUsPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        skipLevelPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        gamePlayPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        levelPausedPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        levelCompletedPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-        levelFailedPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel.name));
-    }
-
-
-    public void ActivatePanel2(GameObject panelToBeActivated)
-    {
-        ActivatePanel2(startLoadingPanel);
-        startLoadingPanel.SetActive(panelToBeActivated.Equals(startLoadingPanel));
-        //panel.SetActive(panel.name == panelName);
+        levelText.text = "LEVEL  " + (1 + levelSelected).ToString();
     }
 
     public void WrongMoveTextPrompter()
@@ -211,8 +153,159 @@ public class UIManager : MonoBehaviour
         if (wrongMoveText != null) { Destroy(wrongMoveText, 5f); }
     }
 
-    public void SetLevelText()
+    public void OnRetryButtonCliked()
     {
-        levelText.text = "LEVEL  " + (1 + GameManager.Instance.currentLevel).ToString();
+        GameController.Instance.ResetCarPosition();
     }
+
+    public void OnPauseButtonClicked()
+    {
+        PanelActivate(levelPausedPanel.name);
+    }
+
+    public void OnBuyMoveButtonClicked()
+    {
+        buyMovePanel.SetActive(true);
+    }
+    #endregion
+
+    #region Level Pause
+    public void OnResumeButtonClicked()
+    {
+        PanelActivate(gamePlayPanel.name);
+    }
+
+    public void OnHomeFromLevelPauseButtonClicked()
+    {
+        GameController.Instance.ClearGame();
+        PanelActivate(mainMenuPanel.name);
+    }
+
+    public void OnSkipLevelButtonClicked()
+    {
+        skipLevelPanel.SetActive(true);
+    }
+    #endregion
+    
+    #region Level Complete
+    public void OnReplayButtonClicked()
+    {
+        PanelActivate(gamePlayPanel.name);
+        GameController.Instance.StartGame();
+    }
+
+    public void OnNextLevelButtonClicked()
+    {
+        TouchManager.Instance.gameOver = false;
+        if (levelSelected < 29) { levelSelected++; }
+        GameController.Instance.StartGame();
+        PanelActivate(gamePlayPanel.name);
+    }
+    #endregion
+
+    #region Skip Level
+    public void OnWatchVideoOfSkipLevelButtonClicked()
+    {
+        // Run This Function if the player watched the ad video
+        ADsVideoOfSkipLevelWatchedCompletley();
+    }
+
+    private void ADsVideoOfSkipLevelWatchedCompletley()
+    {
+        TouchManager.Instance.gameOver = false;
+        if (levelSelected < 29) { levelSelected++; }
+        GameController.Instance.StartGame();
+        PanelActivate(gamePlayPanel.name);
+    }
+
+    public void OnPay50GemsToSkipLevelButtonClicked()
+    {
+        if (gameData.gems >= 50)
+        {
+            TouchManager.Instance.gameOver = false;
+            if (levelSelected < 29) { levelSelected++; }
+            GameController.Instance.StartGame();
+            PanelActivate(gamePlayPanel.name);
+            gameData.gems -= 50;
+            GameDataManager.Instance.Save();
+        }
+        else
+        {
+            Debug.Log("Less Gems");
+        }
+    }
+    
+    public void OnNoThanksOfBuyMoveButtonClicked()
+    {
+        skipLevelPanel.SetActive(false);
+    }
+    #endregion
+
+    #region Buy Move
+    public void OnWatchVideoOfBuyMoveButtonClicked()
+    {
+        // Run This Function if the player watched the ad video
+        ADsVideoOfBuyMoveWatchedCompletley();
+    }
+
+    private void ADsVideoOfBuyMoveWatchedCompletley()
+    {
+        buyMovePanel.SetActive(false);
+        TouchManager.Instance.moveCount += 3;
+    }
+
+    public void OnPay30GemsToBuy3Moves()
+    {
+        if (gameData.gems >= 30)
+        {
+            buyMovePanel.SetActive(false);
+            TouchManager.Instance.moveCount += 3;
+            gameData.gems -= 30;
+            GameDataManager.Instance.Save();
+        }
+    }
+    
+    public void OnNoThanksOfLevelSkipButtonClicked()
+    {
+        buyMovePanel.SetActive(false);
+    }
+    #endregion
+
+    #region Public Methods
+    public void PanelActivate(string panelName)
+    {
+        foreach (GameObject panel in panelsArray)
+        {
+            panel.SetActive(panelName.Equals(panel.name));
+        }
+    }
+
+    public void GoHome()
+    {
+        PanelActivate(mainMenuPanel.name);
+    }
+
+    public void GoToStore()
+    {
+        PanelActivate(storePanel.name);
+    }
+
+    public void GoToSettings(bool formMainMenu)
+    {
+        PanelActivate(settingsPanel.name);
+        settingExitForMain.SetActive(formMainMenu);
+        settingExitForGamePlay.SetActive(!formMainMenu);
+    }
+
+    public void LevelFailed()
+    {
+        PanelActivate(levelFailedPanel.name);
+        GameController.Instance.ClearGame();
+    }
+
+    public void GameExitYes()
+    {
+        Application.Quit();
+    }
+    #endregion
 }

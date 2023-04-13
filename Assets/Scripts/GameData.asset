@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   diamonds: 0
+  gems: 0
   carPrefab: 0
   unlockedLevel: 0
-  gameplaySceneBG: 2
+  gameplaySceneBG: 0

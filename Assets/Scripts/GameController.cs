@@ -32,16 +32,15 @@ public class GameController : MonoBehaviour
         Instance = this;
     }
 
-    private void Start()
-    {
-        //StartGame();
-    }
+    //private void Start() { StartGame(); }
 
     public void StartGame()
     {
         UIManager.Instance.SetLevelText();
         carPrefab = GameManager.Instance.carPrefabs[gameData.carPrefab];
-        currentLevel = GameManager.Instance.currentLevel;
+        currentLevel = UIManager.Instance.levelSelected;
+        TouchManager.Instance.moveCount = level[currentLevel].levelMoves;
+        uiManager.levelMoves.text = level[currentLevel].levelMoves.ToString();
         CarInstantiate();
     }
 
@@ -64,7 +63,7 @@ public class GameController : MonoBehaviour
 
     public void EndGame()
     {
-        if (GameManager.Instance.currentLevel < 29 && GameManager.Instance.currentLevel == gameData.unlockedLevel)
+        if (currentLevel == gameData.unlockedLevel && currentLevel < 29)
         {
             gameData.unlockedLevel++;
             gameData.diamonds += (currentLevel + 1) * 10;
@@ -73,11 +72,28 @@ public class GameController : MonoBehaviour
         else
         {
             gameData.diamonds += 2;
-            GameDataManager.Instance.Save();
+            //GameDataManager.Instance.Save();
         }
 
         // TODO: Show the victory screen and display the final score and time
-        //uiManager.WinPanel.SetActive(true);
+        foreach (Cell parkingCell in TouchManager.Instance.parkingCells)
+        {
+            parkingCell.IsOccupide = false;
+        }
+        TouchManager.Instance.parkingCells.Clear();
+        TouchManager.Instance.rowsList.Clear();
+        foreach (GameObject go in spawnedCarPrefabs)
+        {
+            go.GetComponent<Car>().parkingCell = null;
+            Destroy(go);
+        }
+        spawnedCarPrefabs.Clear();
+        level[currentLevel].levelEnvironment.SetActive(false);
+        uiManager.PanelActivate(uiManager.levelCompletedPanel.name);
+    }
+
+    public void ClearGame()
+    {
         foreach (Cell parkingCell in TouchManager.Instance.parkingCells)
         {
             parkingCell.IsOccupide = false;
@@ -101,14 +117,15 @@ public class GameController : MonoBehaviour
 
     public void ResetCarPosition()
     {
-
+        ClearGame();
+        StartGame();
     }
 }
 
 [Serializable]
 public class LevelManager
 {
-    public int level;
+    public int levelMoves;
     public int carAmount;
     public Color[] carColor;
     public Transform[] carPosition;

@@ -6,6 +6,7 @@ using UnityEngine;
 public class GameData : ScriptableObject
 {
     public int diamonds;
+    public int gems;
     public int carPrefab;
     public int unlockedLevel;
     public int gameplaySceneBG;

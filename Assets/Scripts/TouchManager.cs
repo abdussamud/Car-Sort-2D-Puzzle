@@ -15,6 +15,7 @@ public class TouchManager : MonoBehaviour
     private RaycastHit2D rayHit;
     private RaycastHit2D hitCell;
     public bool gameOver;
+    public int moveCount;
     private bool checkCarColorInRow;
     public List<Row> rowsList = new();
     public List<Cell> parkingCells = new();
@@ -62,15 +63,14 @@ public class TouchManager : MonoBehaviour
                     }
                     else if (deltaX > 0 && (_ = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0)
                     {
+                        gameOver = true;
                         selectedObject.GetComponent<Car>().CreateDust();
                         if (hitCell.collider.transform.position.x < selectedObject.transform.position.x)
                         {
-                            gameOver = true;
                             StartCoroutine(MoveToLeft());
                         }
                         else
                         {
-                            gameOver = true;
                             StartCoroutine(MoveToRight());
                         }
                     }
@@ -136,8 +136,17 @@ public class TouchManager : MonoBehaviour
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
         selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
-        checkCarColorInRow = true;
-        gameOver = false;
+        if (moveCount > 1)
+        {
+            gameOver = false;
+            moveCount--;
+            UIManager.Instance.levelMoves.text = moveCount.ToString();
+            checkCarColorInRow = true;
+        }
+        else
+        {
+            UIManager.Instance.LevelFailed();
+        }
     }
     
     private IEnumerator MoveToLeft()
@@ -214,8 +223,17 @@ public class TouchManager : MonoBehaviour
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
         selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
-        checkCarColorInRow = true;
-        gameOver = false;
+        if (moveCount > 1)
+        {
+            gameOver = false;
+            moveCount--;
+            UIManager.Instance.levelMoves.text = moveCount.ToString();
+            checkCarColorInRow = true;
+        }
+        else
+        {
+            UIManager.Instance.LevelFailed();
+        }
     }
     
     private IEnumerator MoveToRight()
@@ -292,8 +310,17 @@ public class TouchManager : MonoBehaviour
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
         selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
-        checkCarColorInRow = true;
-        gameOver = false;
+        if (moveCount > 1)
+        {
+            gameOver = false;
+            moveCount--;
+            UIManager.Instance.levelMoves.text = moveCount.ToString();
+            checkCarColorInRow = true;
+        }
+        else
+        {
+            UIManager.Instance.LevelFailed();
+        }
     }
     #endregion
 
