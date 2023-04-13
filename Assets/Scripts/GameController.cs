@@ -16,12 +16,10 @@ public class GameController : MonoBehaviour
     private UIManager uiManager;
     [SerializeField]
     private GameObject carPrefab;
-
     [SerializeField]
     private TextMeshProUGUI scoreText;
     [SerializeField]
     private TextMeshProUGUI timerText;
-
     [SerializeField]
     private LevelManager[] level;
     [SerializeField]
@@ -36,7 +34,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        StartGame();
+        //StartGame();
     }
 
     public void StartGame()
@@ -79,7 +77,7 @@ public class GameController : MonoBehaviour
         }
 
         // TODO: Show the victory screen and display the final score and time
-        uiManager.WinPanel.SetActive(true);
+        //uiManager.WinPanel.SetActive(true);
         foreach (Cell parkingCell in TouchManager.Instance.parkingCells)
         {
             parkingCell.IsOccupide = false;

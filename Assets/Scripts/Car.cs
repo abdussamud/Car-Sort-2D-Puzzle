@@ -35,19 +35,7 @@ public class Car : MonoBehaviour
         parkingCell.IsOccupide = true;
     }
 
-    public void CreateDust()
-    {
-        dust[0].Play();
-        dust[1].Play();
-        dust[2].Play();
-        dust[3].Play();
-    }
+    public void CreateDust() { foreach (ParticleSystem ps in dust) { ps.Play(); } }
 
-    public void ClearDust()
-    {
-        dust[0].Stop();
-        dust[1].Stop();
-        dust[2].Stop();
-        dust[3].Stop();
-    }
+    public void ClearDust() { foreach (ParticleSystem ps in dust) { ps.Stop(); } }
 }
