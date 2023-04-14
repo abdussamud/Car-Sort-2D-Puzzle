@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        _ = StartCoroutine(StartLoading());
+        //_ = StartCoroutine(StartLoading());
     }
     #endregion
 
@@ -172,6 +172,7 @@ public class UIManager : MonoBehaviour
     #region Level Pause
     public void OnResumeButtonClicked()
     {
+        TouchManager.Instance.gameOver = false;
         PanelActivate(gamePlayPanel.name);
     }
 
@@ -190,6 +191,7 @@ public class UIManager : MonoBehaviour
     #region Level Complete
     public void OnReplayButtonClicked()
     {
+        TouchManager.Instance.gameOver = false;
         PanelActivate(gamePlayPanel.name);
         GameController.Instance.StartGame();
     }

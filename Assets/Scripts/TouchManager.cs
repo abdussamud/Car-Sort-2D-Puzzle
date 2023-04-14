@@ -95,7 +95,7 @@ public class TouchManager : MonoBehaviour
         }
         if (checkCarColorInRow)
         {
-            CheckWiningConditions();
+            //CheckWiningConditions();
             checkCarColorInRow = false;
         }
     }
@@ -106,12 +106,17 @@ public class TouchManager : MonoBehaviour
 
     private RaycastHit2D Cast2DRayForCell => Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero, 90f, cellLayer);
 
-    private void CheckWiningConditions()
+    private bool CheckWiningConditions()
     {
-        if (rowsList[0].IsCarColorSameInRow() && rowsList[1].IsCarColorSameInRow() && rowsList[2].IsCarColorSameInRow())
+        foreach (Row r in rowsList)
         {
-            controller.EndGameDelay();
+            if (!r.IsCarColorSameInRow())
+            {
+                return false;
+            }
         }
+        controller.EndGameDelay();
+        return true;
     }
 
     private IEnumerator StraightCarMotion()
@@ -141,9 +146,9 @@ public class TouchManager : MonoBehaviour
             gameOver = false;
             moveCount--;
             UIManager.Instance.levelMoves.text = moveCount.ToString();
-            checkCarColorInRow = true;
+            CheckWiningConditions();
         }
-        else
+        else if (!CheckWiningConditions())
         {
             UIManager.Instance.LevelFailed();
         }
@@ -228,9 +233,9 @@ public class TouchManager : MonoBehaviour
             gameOver = false;
             moveCount--;
             UIManager.Instance.levelMoves.text = moveCount.ToString();
-            checkCarColorInRow = true;
+            CheckWiningConditions();
         }
-        else
+        else if (!CheckWiningConditions())
         {
             UIManager.Instance.LevelFailed();
         }
@@ -315,9 +320,9 @@ public class TouchManager : MonoBehaviour
             gameOver = false;
             moveCount--;
             UIManager.Instance.levelMoves.text = moveCount.ToString();
-            checkCarColorInRow = true;
+            CheckWiningConditions();
         }
-        else
+        else if (!CheckWiningConditions())
         {
             UIManager.Instance.LevelFailed();
         }

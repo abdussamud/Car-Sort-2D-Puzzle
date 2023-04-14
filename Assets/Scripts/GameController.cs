@@ -32,13 +32,13 @@ public class GameController : MonoBehaviour
         Instance = this;
     }
 
-    //private void Start() { StartGame(); }
+    private void Start() { StartGame(); }
 
     public void StartGame()
     {
         UIManager.Instance.SetLevelText();
         carPrefab = GameManager.Instance.carPrefabs[gameData.carPrefab];
-        currentLevel = UIManager.Instance.levelSelected;
+        currentLevel = GameManager.Instance.currentLevel;// UIManager.Instance.levelSelected;
         TouchManager.Instance.moveCount = level[currentLevel].levelMoves;
         uiManager.levelMoves.text = level[currentLevel].levelMoves.ToString();
         CarInstantiate();
