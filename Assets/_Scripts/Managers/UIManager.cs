@@ -9,6 +9,9 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     public GameData gameData;
 
+    [Header("Events")]
+    public GameEvent winGameEvent;
+
     [Header("UI Panels")]
     public GameObject mainMenuPanel;
     public GameObject levelSelectionPanel;
@@ -60,6 +63,8 @@ public class UIManager : MonoBehaviour
         {
             MusicOff();
         }
+        //winGameEvent.TrigerEvent();
+        //Debug.Log("Event Triggerd");
     }
     #endregion
 

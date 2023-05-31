@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "GameData", menuName = "Setting/GameData", order = 1)]
+[CreateAssetMenu(fileName = "GameData", menuName = "Scriptable Object/Game Data", order = 1)]
 
 
 public class GameData : ScriptableObject
