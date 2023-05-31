@@ -77,7 +77,7 @@ public class TouchManager : MonoBehaviour
                 }
                 else
                 {
-                    UIManager.Instance.WrongMoveTextPrompter();
+                    GameplayUI.Instance.WrongMoveTextPrompter();
                 }
             }
             if (rayHit.collider && rayHit.collider.CompareTag("Car") && selectedObject != rayHit.collider.gameObject)
@@ -145,12 +145,12 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
-            UIManager.Instance.UpdateMoveText();
+            GameplayUI.Instance.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            UIManager.Instance.LevelFailed();
+            GameplayUI.Instance.LevelFailed();
         }
     }
     
@@ -232,12 +232,12 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
-            UIManager.Instance.UpdateMoveText();
+            GameplayUI.Instance.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            UIManager.Instance.LevelFailed();
+            GameplayUI.Instance.LevelFailed();
         }
     }
     
@@ -319,12 +319,12 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
-            UIManager.Instance.UpdateMoveText();
+            GameplayUI.Instance.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            UIManager.Instance.LevelFailedDelay();
+            GameplayUI.Instance.LevelFailedDelay();
         }
     }
     #endregion

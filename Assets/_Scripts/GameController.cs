@@ -11,7 +11,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameData gameData;
     [SerializeField]
-    private UIManager uiManager;
+    private GameplayUI gameplayUI;
     [SerializeField]
     private Level[] levels;
     [HideInInspector]
@@ -31,22 +31,22 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        uiManager.SetLevelText();
+        gameplayUI.SetLevelText();
         carPrefab = GameManager.Instance.carPrefabs[gameData.carPrefab];
-        CurrentLevel = uiManager.levelSelected;
-        uiManager.skipAdsButtonInPauseLevel.SetActive(CurrentLevel + 1 < gameData.unlockedLevel &&
+        CurrentLevel = gameplayUI.levelSelected;
+        gameplayUI.skipAdsButtonInPauseLevel.SetActive(CurrentLevel + 1 < gameData.unlockedLevel &&
             gameData.unlockedLevel < 9);
-        uiManager.skipAdsButtonInFailedLevel.SetActive(CurrentLevel + 1 < gameData.unlockedLevel &&
+        gameplayUI.skipAdsButtonInFailedLevel.SetActive(CurrentLevel + 1 < gameData.unlockedLevel &&
             gameData.unlockedLevel < 9);
         TouchManager.Instance.moveCount = levels[CurrentLevel].levelMoves;
-        uiManager.levelMoves.text = levels[CurrentLevel].levelMoves.ToString();
+        gameplayUI.levelMoves.text = levels[CurrentLevel].levelMoves.ToString();
         CarInstantiate();
     }
 
     public void CarInstantiate()
     {
         levels[CurrentLevel].levelEnvironment.SetActive(true);
-        uiManager.GameplayTheme.sprite = GameManager.Instance.gameplaySceneBG[gameData.gameplaySceneBG];
+        gameplayUI.GameplayTheme.sprite = GameManager.Instance.gameplaySceneBG[gameData.gameplaySceneBG];
         TouchManager.Instance.SetParkingCell();
         TouchManager.Instance.SetRowList();
         for (int i = 0; i < levels[CurrentLevel].carAmount; i++)
@@ -66,13 +66,13 @@ public class GameController : MonoBehaviour
             gameData.unlockedLevel++;
             gameData.diamonds += (CurrentLevel + 1) * 10;
             DataManager.Instance.SaveData();
-            uiManager.UpdateGemsText();
+            gameplayUI.UpdateGemsText();
         }
         else
         {
             gameData.diamonds += 2;
             DataManager.Instance.SaveData();
-            uiManager.UpdateGemsText();
+            gameplayUI.UpdateGemsText();
         }
 
         // TODO: Show the victory screen and display the final score and time
@@ -89,7 +89,7 @@ public class GameController : MonoBehaviour
         }
         spawnedCarPrefabs.Clear();
         levels[CurrentLevel].levelEnvironment.SetActive(false);
-        uiManager.PanelActivate(uiManager.levelCompletedPanel.name);
+        gameplayUI.PanelActivate(gameplayUI.levelCompletedPanel.name);
     }
 
     public void ClearGame()
