@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -19,12 +20,9 @@ public class GameController : MonoBehaviour
     public List<GameObject> spawnedCarPrefabs = new();
 
 
-    public int CurrentLevel { get; private set; }
+    public int CurrentLevel { get; set; }
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+    private void Awake() { Instance = this; }
 
     private void Start() { StartGame(); }
 
@@ -37,22 +35,24 @@ public class GameController : MonoBehaviour
             gameData.unlockedLevel < 9);
         gameplayUI.skipAdsButtonInFailedLevel.SetActive(CurrentLevel + 1 < gameData.unlockedLevel &&
             gameData.unlockedLevel < 9);
-        TouchManager.Instance.moveCount = levels[CurrentLevel].levelMoves;
-        gameplayUI.levelMoves.text = levels[CurrentLevel].levelMoves.ToString();
-        CarInstantiate();
+        TouchManager.Instance.moveCount = 10;
+        gameplayUI.levelMoves.text = 10.ToString();
+        CarInitialization();
     }
 
-    public void CarInstantiate()
+    public void CarInitialization()
     {
         levels[CurrentLevel].levelEnvironment.SetActive(true);
         gameplayUI.GameplayTheme.sprite = GameManager.Instance.gameplaySceneBG[gameData.gameplaySceneBG];
-        TouchManager.Instance.SetParkingCell();
-        TouchManager.Instance.SetRowList();
-        for (int i = 0; i < levels[CurrentLevel].carAmount; i++)
+        levels[CurrentLevel].cellsArray.ToList().ForEach(c => TouchManager.Instance.parkingCells.Add(c));
+        levels[CurrentLevel].rowsArray.ToList().ForEach(r => TouchManager.Instance.rowsList.Add(r));
+        //TouchManager.Instance.SetParkingCell();
+        //TouchManager.Instance.SetRowList();
+        for (int i = 0; i < levels[CurrentLevel].carInfos.Length; i++)
         {
             GameObject spawnedPrefab = Instantiate(carPrefab, levels[CurrentLevel].carPosition[i].position, Quaternion.identity);
             spawnedPrefab.transform.SetParent(levels[CurrentLevel].carPosition[i].parent);
-            spawnedPrefab.GetComponent<Car>().CarColor = levels[CurrentLevel].carColor[i];
+            spawnedPrefab.GetComponent<Car>().CarColor = levels[CurrentLevel].carInfos[i].carColor;
             spawnedPrefab.GetComponent<Car>().SetParkingCell();
             spawnedCarPrefabs.Add(spawnedPrefab);
         }
@@ -74,7 +74,6 @@ public class GameController : MonoBehaviour
             gameplayUI.UpdateGemsText();
         }
 
-        // TODO: Show the victory screen and display the final score and time
         foreach (Cell parkingCell in TouchManager.Instance.parkingCells)
         {
             parkingCell.IsOccupide = false;
