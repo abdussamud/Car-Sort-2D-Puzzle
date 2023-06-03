@@ -1,16 +1,13 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
-
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     #region Fields
     public static UIManager Instance;
     public GameData gameData;
-
-    [Header("Events")]
-    public GameEvent winGameEvent;
 
     [Header("UI Panels")]
     public GameObject mainMenuPanel;
@@ -63,8 +60,6 @@ public class UIManager : MonoBehaviour
         {
             MusicOff();
         }
-        //winGameEvent.TrigerEvent();
-        //Debug.Log("Event Triggerd");
     }
     #endregion
 
@@ -76,7 +71,8 @@ public class UIManager : MonoBehaviour
 
     public void OnStartButtonClicked()
     {
-        //_ = StartCoroutine(Loading(levelSelectionPanel));
+        GameManager.Instance.nextScene = "Game Play";
+        SceneManager.LoadScene("Loading");
     }
 
     public void OnRateUsButtonClicked()

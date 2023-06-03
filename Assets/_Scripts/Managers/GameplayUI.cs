@@ -61,7 +61,12 @@ public class GameplayUI : MonoBehaviour
 
 
     #region Unity Methods
-    private void Awake() { Instance = this; }
+    private void Awake()
+    {
+        Instance = this;
+        levelSelected = gameData.unlockedLevel;
+        //levelSelected = GameManager.Instance.currentLevel;
+    }
 
     private void Start()
     {
@@ -90,8 +95,6 @@ public class GameplayUI : MonoBehaviour
     {
         _ = audioMixer.SetFloat("SFX", -3);
         _ = audioMixer.SetFloat("Ui", -3);
-        mainMenuSoundOn.SetActive(true);
-        mainMenuSoundOff.SetActive(false);
         gamePlaySoundOn.SetActive(true);
         gamePlaySoundOff.SetActive(false);
         gameData.isSoundOn = true;
@@ -101,8 +104,6 @@ public class GameplayUI : MonoBehaviour
     {
         _ = audioMixer.SetFloat("SFX", -80);
         _ = audioMixer.SetFloat("Ui", -80);
-        mainMenuSoundOn.SetActive(false);
-        mainMenuSoundOff.SetActive(true);
         gamePlaySoundOn.SetActive(false);
         gamePlaySoundOff.SetActive(true);
         gameData.isSoundOn = false;
@@ -111,8 +112,6 @@ public class GameplayUI : MonoBehaviour
     public void MusicOn()
     {
         _ = audioMixer.SetFloat("BGM", -3);
-        mainMenuMusicOn.SetActive(true);
-        mainMenuMusicOff.SetActive(false);
         gamePlayMusicOn.SetActive(true);
         gamePlayMusicOff.SetActive(false);
         gameData.isMusicOn = true;
@@ -121,8 +120,6 @@ public class GameplayUI : MonoBehaviour
     public void MusicOff()
     {
         _ = audioMixer.SetFloat("BGM", -80);
-        mainMenuMusicOn.SetActive(false);
-        mainMenuMusicOff.SetActive(true);
         gamePlayMusicOn.SetActive(false);
         gamePlayMusicOff.SetActive(true);
         gameData.isMusicOn = false;

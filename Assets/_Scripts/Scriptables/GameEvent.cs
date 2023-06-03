@@ -3,7 +3,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "GameEvent", menuName = "Scriptable Object/Game Event", order = 2)]
 public class GameEvent : ScriptableObject
 {
-    [SerializeField]
     private List<GameEventListener> listeners = new();
 
     public void TrigerEvent()

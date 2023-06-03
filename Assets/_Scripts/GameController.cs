@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 
@@ -27,13 +26,13 @@ public class GameController : MonoBehaviour
         Instance = this;
     }
 
-    //private void Start() { StartGame(); }
+    private void Start() { StartGame(); }
 
     public void StartGame()
     {
         gameplayUI.SetLevelText();
         carPrefab = GameManager.Instance.carPrefabs[gameData.carPrefab];
-        CurrentLevel = gameplayUI.levelSelected;
+        CurrentLevel = gameData.unlockedLevel;
         gameplayUI.skipAdsButtonInPauseLevel.SetActive(CurrentLevel + 1 < gameData.unlockedLevel &&
             gameData.unlockedLevel < 9);
         gameplayUI.skipAdsButtonInFailedLevel.SetActive(CurrentLevel + 1 < gameData.unlockedLevel &&

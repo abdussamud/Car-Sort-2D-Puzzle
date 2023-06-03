@@ -44,7 +44,95 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa34f80488e652346b12ad6e99a071e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sounds: []
+  sounds:
+  - name: BGMusic
+    clip: {fileID: 8300000, guid: e60a16fb1c538de4d8b2ebdd2ffaf4b7, type: 3}
+    audioMixerGroup: {fileID: 4882622107336417702, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 1
+    loop: 1
+  - name: Click
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5803780247999141195, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
+  - name: CarSelect
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5421595423230995129, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
+  - name: CarPark
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5421595423230995129, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
+  - name: WrongMove
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5421595423230995129, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
+  - name: YouWin
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5421595423230995129, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
+  - name: YouLose
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5421595423230995129, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
+  - name: CarSelectStore
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5421595423230995129, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
+  - name: ThemeSelectStore
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5421595423230995129, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
+  - name: Purchase
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5421595423230995129, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
+  - name: UnablePurchase
+    clip: {fileID: 8300000, guid: cab47e136011a5d498dcd59f20288edf, type: 3}
+    audioMixerGroup: {fileID: 5421595423230995129, guid: 2fddf3fae25333a44847a3b1d0b01775, type: 2}
+    volume: 0.5
+    pitch: 1
+    source: {fileID: 0}
+    playOnAwake: 0
+    loop: 0
 --- !u!1 &1868023204686011301
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,9 +178,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 65f9c203de7fe7042a7ee0a9cf23d90d, type: 2}
+  gameEvent: {fileID: 11400000, guid: 5f49a4885cc48104d816f62c4d6610c2, type: 2}
   currentLevel: 0
-  carPrefabs: []
-  gameplaySceneBG: []
+  nextScene: 
+  carPrefabs:
+  - {fileID: 2820302727500607697, guid: d2ef3130197951b42993947a4e9d2810, type: 3}
+  gameplaySceneBG:
+  - {fileID: 21300000, guid: 7dde1438212c1e849b6ebc2ae3138a24, type: 3}
 --- !u!1 &2847550875851367790
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 65f9c203de7fe7042a7ee0a9cf23d90d, type: 2}
   filePath: 
+  resetData: 0
 --- !u!1 &6374785071301968553
 GameObject:
   m_ObjectHideFlags: 0
