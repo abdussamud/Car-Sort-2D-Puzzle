@@ -9,9 +9,9 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
 
+    [SerializeField] private bool resetData;
     [SerializeField] private GameData gameData;
     [SerializeField] private string filePath;
-    [SerializeField] private bool resetData;
 
 
     private void Awake()
