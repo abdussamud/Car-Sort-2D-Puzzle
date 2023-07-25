@@ -252,8 +252,6 @@ public class GameplayUI : MonoBehaviour
         {
             panel.SetActive(panelName.Equals(panel.name));
         }
-        gemsStats.SetActive(panelName.Equals(settingsPanel.name) || panelName.Equals(levelSelectionPanel.name));
-        TouchManager.Instance.gameOver = !panelName.Equals(gamePlayPanel.name);
     }
 
     public void GoToSettings()

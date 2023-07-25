@@ -24,7 +24,7 @@ public class DataManager : MonoBehaviour
         }
         else
         {
-            SaveData();
+            ResetData();
         }
     }
 
@@ -61,5 +61,17 @@ public class DataManager : MonoBehaviour
         gameData.unlockedLevel = loadedData.unlockedLevel;
         gameData.gameplaySceneBG = loadedData.gameplaySceneBG;
         Debug.Log("Data Loaded");
+    }
+
+    private void ResetData()
+    {
+        gameData.diamonds = 0;
+        gameData.carPrefab = 0;
+        gameData.unlockedLevel = 0;
+        gameData.gameplaySceneBG = 0;
+        gameData.isSoundOn = true;
+        gameData.isMusicOn = true;
+        gameData.isFirstTime = true;
+        SaveData();
     }
 }

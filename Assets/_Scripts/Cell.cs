@@ -7,6 +7,7 @@ public class Cell : MonoBehaviour
     public bool isOccupide;
     public int rowNumber;
     public int columnNumber;
+    public GameObject greenParkingSign;
 
 
     private void Start()
@@ -24,7 +25,7 @@ public class Cell : MonoBehaviour
         set
         {
             isOccupide = value;
-            transform.GetChild(0).transform.GetChild(1).gameObject.SetActive(!isOccupide);
+            greenParkingSign.SetActive(!isOccupide);
         }
     }
 }

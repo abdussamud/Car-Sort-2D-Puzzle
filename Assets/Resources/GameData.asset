@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e853c5c143414142a044099368d4721, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  diamonds: 10
+  diamonds: 50
   gems: 0
   carPrefab: 0
-  unlockedLevel: 0
+  unlockedLevel: 1
   gameplaySceneBG: 0
   isSoundOn: 1
   isMusicOn: 0
