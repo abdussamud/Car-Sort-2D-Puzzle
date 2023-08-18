@@ -1,27 +1,14 @@
 using System;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
-    //public static AudioManager Instance;
+    public static AudioManager am;
     public Sound[] sounds;
 
     private void Awake()
     {
-        #region Singleton
-        //if (Instance == null)
-        //{
-        //    Instance = this;
-        //}
-        //else
-        //{
-        //    Destroy(gameObject);
-        //    return;
-        //}
-        //
-        //DontDestroyOnLoad(gameObject);
-        #endregion
+        am = this;
 
         foreach (Sound s in sounds)
         {
@@ -37,7 +24,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        Play("BGMusic");
+        //Play("BGMusic");
     }
 
     public void Play(string name)
@@ -49,5 +36,38 @@ public class AudioManager : MonoBehaviour
             return;
         }
         s.source.Play();
+    }
+
+    public void Pause(string name)
+    {
+        Sound s = Array.Find(sounds, s => s.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sounds name: " + name + " not found!");
+            return;
+        }
+        s.source.Pause();
+    }
+
+    public void UnPause(string name)
+    {
+        Sound s = Array.Find(sounds, s => s.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sounds name: " + name + " not found!");
+            return;
+        }
+        s.source.UnPause();
+    }
+
+    public void Stop(string name)
+    {
+        Sound s = Array.Find(sounds, s => s.name == name);
+        if (s == null)
+        {
+            Debug.LogWarning("Sounds name: " + name + " not found!");
+            return;
+        }
+        s.source.Stop();
     }
 }

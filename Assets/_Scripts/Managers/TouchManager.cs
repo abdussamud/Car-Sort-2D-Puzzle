@@ -5,9 +5,8 @@ using UnityEngine;
 public class TouchManager : MonoBehaviour
 {
     #region Variables
-    public static TouchManager Instance;
+    public static TouchManager tm;
 
-    public GameController controller;
     public GameObject selectedObject;
     public Cell oldParkingCell;
     public LayerMask carLayer;
@@ -19,14 +18,24 @@ public class TouchManager : MonoBehaviour
     private bool checkCarColorInRow;
     public List<Row> rowsList = new();
     public List<Cell> parkingCells = new();
-    private const float DURATION = 0.2f;
-    private const float DURATION1 = 0.3f;
+    private const float DURATION = 0.3f;
+    private const float DURATION1 = 0.5f;
     private Vector3 desiredPosition;
+    private GameController gc;
+    private GameplayUI gameplayUI;
     #endregion
 
-
     #region Unity Methods
-    private void Awake() => Instance = this;
+    private void Awake()
+    {
+        tm = this;
+    }
+
+    private void Start()
+    {
+        gc = GameController.gc;
+        gameplayUI = GameplayUI.gui;
+    }
 
     private void Update()
     {
@@ -55,29 +64,17 @@ public class TouchManager : MonoBehaviour
                     oldParkingCell.IsOccupide = false;
                     oldParkingCell.puzzleCar = null;
                     desiredPosition = hitCell.collider.gameObject.transform.position;
-                    if ((_ = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0)
-                    {
-                        gameOver = true;
-                        selectedObject.GetComponent<Car>().CreateDust();
-                        StartCoroutine(StraightCarMotion());
-                    }
-                    else if (deltaX > 0 && (_ = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0)
-                    {
-                        gameOver = true;
-                        selectedObject.GetComponent<Car>().CreateDust();
-                        if (hitCell.collider.transform.position.x < selectedObject.transform.position.x)
-                        {
-                            StartCoroutine(MoveToLeft());
-                        }
-                        else
-                        {
-                            StartCoroutine(MoveToRight());
-                        }
-                    }
+                    gameOver = true;
+                    selectedObject.GetComponent<Car>().CreateDust();
+                    int moveDir = ((_ = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0) ? 2 :
+                        (deltaX > 0 && (_ = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0) ? 1 : 0;
+                    _ = StartCoroutine(moveDir == 2 ? StraightCarMotion() : moveDir == 1 ?
+                        (((_ = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0) ?
+                        MoveToLeft() : MoveToRight()) : null);
                 }
                 else
                 {
-                    GameplayUI.Instance.WrongMoveTextPrompter();
+                    gameplayUI.WrongMoveTextPrompter();
                 }
             }
             if (rayHit.collider && rayHit.collider.CompareTag("Car") && selectedObject != rayHit.collider.gameObject)
@@ -115,7 +112,7 @@ public class TouchManager : MonoBehaviour
                 return false;
             }
         }
-        controller.EndGameDelay();
+        gc.EndGameDelay();
         return true;
     }
 
@@ -145,12 +142,12 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
-            GameplayUI.Instance.UpdateMoveText();
+            gameplayUI.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            GameplayUI.Instance.LevelFailed();
+            gameplayUI.LevelFailed();
         }
     }
     
@@ -232,12 +229,12 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
-            GameplayUI.Instance.UpdateMoveText();
+            gameplayUI.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            GameplayUI.Instance.LevelFailed();
+            gameplayUI.LevelFailed();
         }
     }
     
@@ -319,12 +316,12 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
-            GameplayUI.Instance.UpdateMoveText();
+            gameplayUI.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            GameplayUI.Instance.LevelFailedDelay();
+            gameplayUI.LevelFailedDelay();
         }
     }
     #endregion

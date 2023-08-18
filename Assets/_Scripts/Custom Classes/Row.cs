@@ -7,12 +7,23 @@ public class Row : MonoBehaviour
     public Cell[] rowCells;
     public int rowNumber;
 
-
     public bool IsCarColorSameInRow()
     {
-        foreach (Cell cell in rowCells) { if (cell.isOccupide) { cellsHavingCar.Add(cell); } }
+        foreach (Cell cell in rowCells)
+        {
+            if (cell.isOccupide)
+            {
+                cellsHavingCar.Add(cell);
+            }
+        }
         Color firstColor = cellsHavingCar[0].puzzleCar.carColor;
-        foreach (Cell cell in cellsHavingCar) { if (cell.puzzleCar.carColor != firstColor) { cellsHavingCar.Clear(); return false; } }
+        foreach (Cell cell in cellsHavingCar)
+        {
+            if (cell.puzzleCar.carColor != firstColor)
+            {
+                cellsHavingCar.Clear(); return false;
+            }
+        }
         cellsHavingCar.Clear();
         return true;
     }

@@ -9,11 +9,10 @@ public class SceneLoader : MonoBehaviour
     [SerializeField] private string sceneName;
     [SerializeField] private Slider loadingSlider;
 
-
     private void Start()
     {
         sceneName = GameManager.Instance.nextScene;
-        if (sceneName == string.Empty) { sceneName = "Main Menu"; }
+        sceneName = sceneName == string.Empty ? "Main Menu" : sceneName;
         _ = loadingSlider.DOValue(1, 4);
         _ = StartCoroutine(StartLoading());
     }

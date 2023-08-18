@@ -2,13 +2,19 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
+    public CarInfo carInfo;
     public Color carColor;
     public Cell parkingCell;
     public GameObject carLights;
     public ParticleSystem[] dust;
+    private TouchManager tm;
 
+    private void Awake()
+    {
+        tm = TouchManager.tm;
+    }
 
-    private void SetCarColor() => gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = carColor;
+    private void SetCarColor() { gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = carColor; }
 
     public Color CarColor
     {
@@ -24,13 +30,11 @@ public class Car : MonoBehaviour
 
     public void SetParkingCell()
     {
-        foreach (Cell cell in TouchManager.Instance.parkingCells)
+        foreach (Cell cell in tm.parkingCells)
         {
-            if (cell.transform.position == transform.position)
-            {
-                parkingCell = cell;
-                cell.puzzleCar = this;
-            }
+            bool isPositionMatch = cell.transform.position == transform.position;
+            parkingCell = isPositionMatch ? cell : parkingCell;
+            cell.puzzleCar = isPositionMatch ? this : cell.puzzleCar;
         }
         parkingCell.IsOccupide = true;
     }

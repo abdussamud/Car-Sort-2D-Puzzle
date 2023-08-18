@@ -1,4 +1,3 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
@@ -6,8 +5,7 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     #region Fields
-    public static UIManager Instance;
-    public GameData gameData;
+    public static UIManager mui;
 
     [Header("UI Panels")]
     public GameObject mainMenuPanel;
@@ -19,15 +17,22 @@ public class UIManager : MonoBehaviour
     [Header("Settings")]
     public AudioMixer audioMixer;
 
+    private DataManager dm;
+    private GameData gd;
     #endregion
 
 
     #region Unity Methods
-    private void Awake() { Instance = this; }
+    private void Awake()
+    {
+        mui = this;
+        dm = DataManager.dm;
+        gd = dm.gameData;
+    }
 
     private void Start()
     {
-        if (gameData.isSoundOn)
+        if (gd.isSoundOn)
         {
             SoundOn();
         }
@@ -35,7 +40,7 @@ public class UIManager : MonoBehaviour
         {
             SoundOff();
         }
-        if (gameData.isMusicOn)
+        if (gd.isMusicOn)
         {
             MusicOn();
         }
@@ -79,27 +84,27 @@ public class UIManager : MonoBehaviour
     {
         _ = audioMixer.SetFloat("SFX", -3);
         _ = audioMixer.SetFloat("Ui", -3);
-        gameData.isSoundOn = true;
-        DataManager.Instance.SaveData();
+        gd.isSoundOn = true;
+        SaveData();
     }
     public void SoundOff()
     {
         _ = audioMixer.SetFloat("SFX", -80);
         _ = audioMixer.SetFloat("Ui", -80);
-        gameData.isSoundOn = false;
-        DataManager.Instance.SaveData();
+        gd.isSoundOn = false;
+        SaveData();
     }
     public void MusicOn()
     {
         _ = audioMixer.SetFloat("BGM", -3);
-        gameData.isMusicOn = true;
-        DataManager.Instance.SaveData();
+        gd.isMusicOn = true;
+        SaveData();
     }
     public void MusicOff()
     {
         _ = audioMixer.SetFloat("BGM", -80);
-        gameData.isMusicOn = false;
-        DataManager.Instance.SaveData();
+        gd.isMusicOn = false;
+        SaveData();
     }
     #endregion
 
@@ -142,4 +147,9 @@ public class UIManager : MonoBehaviour
 
     }
     #endregion
+
+    private void SaveData()
+    {
+        dm.SaveData();
+    }
 }
