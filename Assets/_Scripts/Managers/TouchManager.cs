@@ -19,7 +19,7 @@ public class TouchManager : MonoBehaviour
     public List<Row> rowsList = new();
     public List<Cell> parkingCells = new();
     private const float DURATION = 0.3f;
-    private const float DURATION1 = 0.5f;
+    private const float DURATION1 = 0.15f;
     private Vector3 desiredPosition;
     private GameController gc;
     private GameplayUI gameplayUI;
@@ -64,17 +64,36 @@ public class TouchManager : MonoBehaviour
                     oldParkingCell.IsOccupide = false;
                     oldParkingCell.puzzleCar = null;
                     desiredPosition = hitCell.collider.gameObject.transform.position;
-                    gameOver = true;
-                    selectedObject.GetComponent<Car>().CreateDust();
-                    int moveDir = ((_ = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0) ? 2 :
-                        (deltaX > 0 && (_ = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0) ? 1 : 0;
-                    _ = StartCoroutine(moveDir == 2 ? StraightCarMotion() : moveDir == 1 ?
-                        (((_ = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0) ?
-                        MoveToLeft() : MoveToRight()) : null);
+                    if ((_ = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0)
+                    {
+                        gameOver = true;
+                        selectedObject.GetComponent<Car>().CreateDust();
+                        AudioManager.am.Stop("Select");
+                        AudioManager.am.Play("Move");
+                        StartCoroutine(StraightCarMotion());
+                    }
+                    else if (deltaX > 0 && (_ = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0)
+                    {
+                        gameOver = true;
+                        selectedObject.GetComponent<Car>().CreateDust();
+                        if (hitCell.collider.transform.position.x < selectedObject.transform.position.x)
+                        {
+                            AudioManager.am.Stop("Select");
+                            AudioManager.am.Play("Move");
+                            StartCoroutine(MoveToLeft());
+                        }
+                        else
+                        {
+                            AudioManager.am.Stop("Select");
+                            AudioManager.am.Play("Move");
+                            StartCoroutine(MoveToRight());
+                        }
+                    }
                 }
                 else
                 {
                     gameplayUI.WrongMoveTextPrompter();
+                    AudioManager.am.Play("Wrong");
                 }
             }
             if (rayHit.collider && rayHit.collider.CompareTag("Car") && selectedObject != rayHit.collider.gameObject)
@@ -118,7 +137,6 @@ public class TouchManager : MonoBehaviour
 
     private IEnumerator StraightCarMotion()
     {
-
         Vector3 startPos = selectedObject.transform.position;
         Vector3 endPos = desiredPosition;
 
@@ -138,21 +156,24 @@ public class TouchManager : MonoBehaviour
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
         selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
+        AudioManager.am.Stop("Move");
+        AudioManager.am.Play("Park");
         if (moveCount > 1)
         {
             gameOver = false;
             moveCount--;
-            gameplayUI.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            gameplayUI.LevelFailed();
+            //UIManager.Instance.LevelFailed();
+            moveCount--;
         }
     }
-    
+
     private IEnumerator MoveToLeft()
     {
+        Debug.Log("MoveToLeft");
         Vector3 startPos = selectedObject.transform.position;
         Vector3 endPos = desiredPosition;
         Vector3 startPos1 = new(startPos.x, startPos.y + 0.7f, startPos.z);
@@ -225,21 +246,24 @@ public class TouchManager : MonoBehaviour
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
         selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
+        AudioManager.am.Stop("Move");
+        AudioManager.am.Play("Park");
         if (moveCount > 1)
         {
             gameOver = false;
             moveCount--;
-            gameplayUI.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            gameplayUI.LevelFailed();
+            //UIManager.Instance.LevelFailed();
+            moveCount--;
         }
     }
-    
+
     private IEnumerator MoveToRight()
     {
+        Debug.Log("MoveToRight");
         Vector3 startPos = selectedObject.transform.position;
         Vector3 endPos = desiredPosition;
         Vector3 startPos1 = new(startPos.x, startPos.y + 0.7f, startPos.z);
@@ -312,36 +336,18 @@ public class TouchManager : MonoBehaviour
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
         selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
+        AudioManager.am.Stop("Move");
+        AudioManager.am.Play("Park");
         if (moveCount > 1)
         {
             gameOver = false;
             moveCount--;
-            gameplayUI.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            gameplayUI.LevelFailedDelay();
-        }
-    }
-    #endregion
-
-    #region Public Methods
-    public void SetParkingCell()
-    {
-        Cell[] parkingCellsArray = FindObjectsOfType<Cell>();
-        foreach (Cell parkingCell in parkingCellsArray)
-        {
-            parkingCells.Add(parkingCell);
-        }
-    }
-
-    public void SetRowList()
-    {
-        Row[] rowsArray = FindObjectsOfType<Row>();
-        foreach (Row row in rowsArray)
-        {
-            rowsList.Add(row);
+            //UIManager.Instance.LevelFailed();
+            moveCount--;
         }
     }
     #endregion

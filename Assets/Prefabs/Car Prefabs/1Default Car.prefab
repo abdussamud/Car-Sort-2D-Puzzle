@@ -388,6 +388,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5625c021804b2c3438cdf8ebbddd9318, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  carInfo:
+    carName: 
+    carCode: 0
+    carAmount: 0
+    carColor: {r: 0, g: 0, b: 0, a: 0}
   carColor: {r: 1, g: 1, b: 1, a: 1}
   parkingCell: {fileID: 0}
   carLights: {fileID: 7289923770038658174}
@@ -406,6 +411,25 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1743,6 +1767,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2820302727500607696}
     m_Modifications:
     - target: {fileID: 5696544911367817317, guid: 3adca2e0bb050c944a21d2bcbfffee20, type: 3}
@@ -1794,6 +1819,9 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3adca2e0bb050c944a21d2bcbfffee20, type: 3}
 --- !u!4 &1634117335541733632 stripped
 Transform:

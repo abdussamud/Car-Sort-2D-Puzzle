@@ -178,13 +178,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 65f9c203de7fe7042a7ee0a9cf23d90d, type: 2}
-  gameEvent: {fileID: 11400000, guid: 5f49a4885cc48104d816f62c4d6610c2, type: 2}
   currentLevel: 0
   nextScene: 
   carPrefabs:
   - {fileID: 2820302727500607697, guid: d2ef3130197951b42993947a4e9d2810, type: 3}
   gameplaySceneBG:
-  - {fileID: 21300000, guid: 7dde1438212c1e849b6ebc2ae3138a24, type: 3}
+  - {fileID: 21300000, guid: d267fee7360f0c04c851ed7c35379302, type: 3}
+  - {fileID: 21300000, guid: bf119f53c7ae541448e26e05b9d58018, type: 3}
+  - {fileID: 21300000, guid: 6eb006bf0a1989f4294453f4fa99f762, type: 3}
 --- !u!1 &2847550875851367790
 GameObject:
   m_ObjectHideFlags: 0

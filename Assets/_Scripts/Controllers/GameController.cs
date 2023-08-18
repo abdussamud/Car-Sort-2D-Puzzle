@@ -5,7 +5,8 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public static GameController gc;
-
+    public Camera m_Camera;
+    public GameObject[] carPrefabs;
     [SerializeField]
     private Level[] levels;
     [HideInInspector]
@@ -39,6 +40,7 @@ public class GameController : MonoBehaviour
         gui.SetLevelText();
         carPrefab = GameManager.Instance.carPrefabs[gd.carPrefab];
         CurrentLevel = gd.unlockedLevel;
+        m_Camera.orthographicSize = levels[CurrentLevel].cameraSize;
         gui.skipAdsButtonInPauseLevel.SetActive(CurrentLevel + 1 < gd.unlockedLevel &&
             gd.unlockedLevel < 9);
         gui.skipAdsButtonInFailedLevel.SetActive(CurrentLevel + 1 < gd.unlockedLevel &&
@@ -54,14 +56,12 @@ public class GameController : MonoBehaviour
         gui.GameplayTheme.sprite = GameManager.Instance.gameplaySceneBG[gd.gameplaySceneBG];
         levels[CurrentLevel].cellsArray.ToList().ForEach(c => tm.parkingCells.Add(c));
         levels[CurrentLevel].rowsArray.ToList().ForEach(r => tm.rowsList.Add(r));
-        //TouchManager.Instance.SetParkingCell();
-        //TouchManager.Instance.SetRowList();
-        for (int i = 0; i < levels[CurrentLevel].carInfos.Length; i++)
+        for (int i = 0; i < levels[CurrentLevel].carPosition.Length; i++)
         {
-            GameObject spawnedPrefab = Instantiate(carPrefab, levels[CurrentLevel].carPosition[i].position, Quaternion.identity);
+            GameObject spawnedPrefab = Instantiate(carPrefabs[levels[CurrentLevel].carCode[i]],
+                levels[CurrentLevel].carPosition[i].position, Quaternion.identity);
             spawnedPrefab.transform.SetParent(levels[CurrentLevel].carPosition[i].parent);
             Car car = spawnedPrefab.GetComponent<Car>();
-            car.CarColor = levels[CurrentLevel].carInfos[i].carColor;
             car.SetParkingCell();
             spawnedCarPrefabs.Add(spawnedPrefab);
         }

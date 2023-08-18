@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class Car : MonoBehaviour
 {
-    public CarInfo carInfo;
-    public Color carColor;
+    public int carCode;
     public Cell parkingCell;
     public GameObject carLights;
     public ParticleSystem[] dust;
@@ -14,16 +13,10 @@ public class Car : MonoBehaviour
         tm = TouchManager.tm;
     }
 
-    private void SetCarColor() { gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().color = carColor; }
-
-    public Color CarColor
+    public int CarCode
     {
-        get => carColor;
-        set
-        {
-            carColor = value;
-            SetCarColor();
-        }
+        get => carCode;
+        set => carCode = value;
     }
 
     public Cell GetParkingCell => parkingCell;

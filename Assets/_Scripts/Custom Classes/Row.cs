@@ -16,10 +16,10 @@ public class Row : MonoBehaviour
                 cellsHavingCar.Add(cell);
             }
         }
-        Color firstColor = cellsHavingCar[0].puzzleCar.carColor;
+        int firstCarCode = cellsHavingCar[0].puzzleCar.carCode;
         foreach (Cell cell in cellsHavingCar)
         {
-            if (cell.puzzleCar.carColor != firstColor)
+            if (cell.puzzleCar.carCode != firstCarCode)
             {
                 cellsHavingCar.Clear(); return false;
             }

@@ -24,19 +24,10 @@ public class Sound
 public class Level
 {
     public string levelName;
+    public float cameraSize;
     public GameObject levelEnvironment;
-    public GameObject[] carGO;
-    public Transform[] carPosition;
+    public int[] carCode;
     public Row[] rowsArray;
     public Cell[] cellsArray;
-    public CarInfo[] carInfos;
-}
-
-[Serializable]
-public class CarInfo
-{
-    public string carName;
-    public int carCode;
-    public int carAmount;
-    public Color carColor;
+    public Transform[] carPosition;
 }

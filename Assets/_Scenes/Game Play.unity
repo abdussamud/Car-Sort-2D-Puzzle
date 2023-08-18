@@ -5198,16 +5198,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47cf017f1d8d0eb41ad1a20527786477, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Camera: {fileID: 519420031}
+  carPrefabs:
+  - {fileID: 6804935268196770754, guid: 187f3e59cf114324faf666773ac04c1c, type: 3}
+  - {fileID: 5320715283579751661, guid: 7462f631571647a4d8a16ebd5fcf1022, type: 3}
+  - {fileID: 5770737403881926374, guid: bbe708e7093b95f429713c1ebaf621f6, type: 3}
+  - {fileID: 8911367791419841168, guid: 55bc0dc2a57106c43ba351e90e5a11ad, type: 3}
+  - {fileID: 6370411653960281731, guid: 892360613f6ed6240b85f6ec0d1aa0e1, type: 3}
+  - {fileID: 9091875032399731191, guid: e3a432847737c834581ec196f16b027c, type: 3}
+  - {fileID: 1111335729590364111, guid: 57e16991747e4d4489008144aecd3df3, type: 3}
+  - {fileID: 3354579460826280752, guid: a72223b8eb47e9b458fcb5c5a54dce0d, type: 3}
+  - {fileID: 8459746895868305948, guid: 85bc4ba908843e84b855223e9124863d, type: 3}
   levels:
   - levelName: Level 1
+    cameraSize: 6
     levelEnvironment: {fileID: 69512515}
-    carGO: []
-    carPosition:
-    - {fileID: 861614455}
-    - {fileID: 1435534574}
-    - {fileID: 1567176427}
-    - {fileID: 723941842}
-    - {fileID: 1770773119}
+    carCode: 
     rowsArray:
     - {fileID: 220242575}
     - {fileID: 543733232}
@@ -5218,36 +5224,16 @@ MonoBehaviour:
     - {fileID: 1567176428}
     - {fileID: 723941843}
     - {fileID: 1770773120}
-    carInfos:
-    - carName: Car 0
-      carCode: 0
-      carAmount: 3
-      carColor: {r: 1, g: 0, b: 0, a: 1}
-    - carName: Car 1
-      carCode: 1
-      carAmount: 3
-      carColor: {r: 1, g: 0, b: 0, a: 1}
-    - carName: Car 2
-      carCode: 2
-      carAmount: 3
-      carColor: {r: 1, g: 0, b: 0, a: 1}
-    - carName: Car 3
-      carCode: 3
-      carAmount: 2
-      carColor: {r: 0, g: 1, b: 0, a: 1}
-    - carName: Car 4
-      carCode: 4
-      carAmount: 2
-      carColor: {r: 0, g: 1, b: 0, a: 1}
+    carPosition:
+    - {fileID: 861614455}
+    - {fileID: 1435534574}
+    - {fileID: 1567176427}
+    - {fileID: 723941842}
+    - {fileID: 1770773119}
   - levelName: Level 2
+    cameraSize: 6
     levelEnvironment: {fileID: 69512515}
-    carGO: []
-    carPosition:
-    - {fileID: 861614455}
-    - {fileID: 1435534574}
-    - {fileID: 1567176427}
-    - {fileID: 723941842}
-    - {fileID: 1770773119}
+    carCode: 0000000001000000000000000100000000000000
     rowsArray:
     - {fileID: 220242575}
     - {fileID: 543733232}
@@ -5258,27 +5244,12 @@ MonoBehaviour:
     - {fileID: 1567176428}
     - {fileID: 723941843}
     - {fileID: 1770773120}
-    carInfos:
-    - carName: Car 0
-      carCode: 0
-      carAmount: 3
-      carColor: {r: 1, g: 0, b: 0, a: 1}
-    - carName: Car 1
-      carCode: 1
-      carAmount: 3
-      carColor: {r: 1, g: 0, b: 0, a: 1}
-    - carName: Car 2
-      carCode: 2
-      carAmount: 3
-      carColor: {r: 1, g: 0, b: 0, a: 1}
-    - carName: Car 3
-      carCode: 3
-      carAmount: 2
-      carColor: {r: 0, g: 1, b: 0, a: 1}
-    - carName: Car 4
-      carCode: 4
-      carAmount: 2
-      carColor: {r: 0, g: 1, b: 0, a: 1}
+    carPosition:
+    - {fileID: 861614455}
+    - {fileID: 1435534574}
+    - {fileID: 1567176427}
+    - {fileID: 723941842}
+    - {fileID: 1770773119}
   isGameOver: 0
   spawnedCarPrefabs: []
 --- !u!1 &1726567898
