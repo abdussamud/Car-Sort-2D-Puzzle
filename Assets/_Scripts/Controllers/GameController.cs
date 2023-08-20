@@ -5,31 +5,27 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public static GameController gc;
+    public int currentLevel;
     public Camera m_Camera;
     public GameObject[] carPrefabs;
     [SerializeField]
     private Level[] levels;
-    [HideInInspector]
-    public bool isGameOver;
-    [HideInInspector]
-    public List<GameObject> spawnedCarPrefabs = new();
-    private GameObject carPrefab;
-    private GameplayUI gui;
     private GameData gd;
+    private GameplayUI gui;
     private DataManager dm;
     private TouchManager tm;
-
+    private readonly List<Car> spawnedCars = new();
     public int CurrentLevel { get; set; }
 
     private void Awake()
     {
         gc = this;
         dm = DataManager.dm;
+        gd = dm.gameData;
     }
 
     private void Start()
     {
-        gd = dm.gameData;
         gui = GameplayUI.gui;
         tm = TouchManager.tm;
         StartGame();
@@ -37,91 +33,61 @@ public class GameController : MonoBehaviour
 
     public void StartGame()
     {
-        gui.SetLevelText();
-        carPrefab = GameManager.Instance.carPrefabs[gd.carPrefab];
-        CurrentLevel = gd.unlockedLevel;
+        CurrentLevel = currentLevel;// gd.unlockedLevel;
+        gui.levelSelected = currentLevel;
         m_Camera.orthographicSize = levels[CurrentLevel].cameraSize;
-        gui.skipAdsButtonInPauseLevel.SetActive(CurrentLevel + 1 < gd.unlockedLevel &&
-            gd.unlockedLevel < 9);
-        gui.skipAdsButtonInFailedLevel.SetActive(CurrentLevel + 1 < gd.unlockedLevel &&
-            gd.unlockedLevel < 9);
-        tm.moveCount = 10;
-        gui.levelMoves.text = 10.ToString();
-        CarInitialization();
+        gui.gameplayThemeGO[levels[CurrentLevel].theme].SetActive(true);
+        gui.skipAdsButtonInPauseLevel.SetActive(CurrentLevel + 1 < gd.level && gd.level < 9);
+        gui.skipAdsButtonInFailedLevel.SetActive(CurrentLevel + 1 < gd.level && gd.level < 9);
+        tm.moveCount = levels[CurrentLevel].moveCount;
+        gui.SetLevelText();
+        gui.UpdateMoveText();
+        LevelSetter();
     }
 
-    public void CarInitialization()
+    public void LevelSetter()
     {
         levels[CurrentLevel].levelEnvironment.SetActive(true);
-        gui.GameplayTheme.sprite = GameManager.Instance.gameplaySceneBG[gd.gameplaySceneBG];
         levels[CurrentLevel].cellsArray.ToList().ForEach(c => tm.parkingCells.Add(c));
         levels[CurrentLevel].rowsArray.ToList().ForEach(r => tm.rowsList.Add(r));
         for (int i = 0; i < levels[CurrentLevel].carPosition.Length; i++)
         {
             GameObject spawnedPrefab = Instantiate(carPrefabs[levels[CurrentLevel].carCode[i]],
                 levels[CurrentLevel].carPosition[i].position, Quaternion.identity);
-            spawnedPrefab.transform.SetParent(levels[CurrentLevel].carPosition[i].parent);
+            spawnedPrefab.transform.SetParent(levels[CurrentLevel].levelEnvironment.transform);
             Car car = spawnedPrefab.GetComponent<Car>();
             car.SetParkingCell();
-            spawnedCarPrefabs.Add(spawnedPrefab);
+            spawnedCars.Add(car);
         }
     }
 
     public void EndGame()
     {
-        bool shouldIncrementUnlockedLevel = CurrentLevel == gd.unlockedLevel && CurrentLevel < 29;
-        gd.unlockedLevel = shouldIncrementUnlockedLevel ? +1 : gd.unlockedLevel;
-        gd.diamonds = shouldIncrementUnlockedLevel ? +(CurrentLevel + 1) * 10 : +2;
-
-        SaveData();
-
-        foreach (Cell parkingCell in tm.parkingCells)
-        {
-            parkingCell.IsOccupide = false;
-        }
-        tm.parkingCells.Clear();
-        tm.rowsList.Clear();
-        foreach (GameObject go in spawnedCarPrefabs)
-        {
-            go.GetComponent<Car>().parkingCell = null;
-            Destroy(go);
-        }
-        spawnedCarPrefabs.Clear();
-        levels[CurrentLevel].levelEnvironment.SetActive(false);
         gui.PanelActivate(gui.levelCompletedPanel.name);
+        bool newLevel = CurrentLevel == gd.level && CurrentLevel < 10;
+        gd.level += newLevel ? 1 : 0;
+        gd.coins += newLevel ? 4 : 1;
+        SaveData();
+        ClearGame();
     }
 
     public void ClearGame()
     {
         foreach (Cell parkingCell in tm.parkingCells)
         {
-            parkingCell.IsOccupide = false;
+            parkingCell.IsOccupied = false;
         }
-        tm.parkingCells.Clear();
-        tm.rowsList.Clear();
-        foreach (GameObject go in spawnedCarPrefabs)
+        foreach (Car car in spawnedCars)
         {
-            go.GetComponent<Car>().parkingCell = null;
-            Destroy(go);
+            Destroy(car.gameObject);
         }
-        spawnedCarPrefabs.Clear();
+        spawnedCars.Clear();
+        tm.rowsList.Clear();
+        tm.parkingCells.Clear();
         levels[CurrentLevel].levelEnvironment.SetActive(false);
     }
 
-    public void EndGameDelay()
-    {
-        tm.gameOver = true;
-        Invoke(nameof(EndGame), 1f);
-    }
+    public void EndGameDelay() { Invoke(nameof(EndGame), 1f); }
 
-    public void ResetCarPosition()
-    {
-        ClearGame();
-        StartGame();
-    }
-
-    private void SaveData()
-    {
-        dm.SaveData();
-    }
+    private void SaveData() { dm.SaveData(); }
 }

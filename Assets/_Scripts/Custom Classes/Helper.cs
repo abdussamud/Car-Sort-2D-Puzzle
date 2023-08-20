@@ -24,6 +24,8 @@ public class Sound
 public class Level
 {
     public string levelName;
+    public int theme;
+    public int moveCount;
     public float cameraSize;
     public GameObject levelEnvironment;
     public int[] carCode;

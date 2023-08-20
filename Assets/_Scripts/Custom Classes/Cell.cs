@@ -4,7 +4,7 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
     public Car puzzleCar;
-    public bool isOccupide;
+    public bool isOccupied;
     public int rowNumber;
     public int columnNumber;
     public GameObject greenParkingSign;
@@ -15,16 +15,16 @@ public class Cell : MonoBehaviour
         foreach (char alphabet in gameObject.name) { charArrayOfCell.Add(alphabet); }
         rowNumber = (int)char.GetNumericValue(charArrayOfCell[2]);
         columnNumber = (int)char.GetNumericValue(charArrayOfCell[6]);
-        greenParkingSign.SetActive(!isOccupide);
+        greenParkingSign.SetActive(!isOccupied);
     }
 
-    public bool IsOccupide
+    public bool IsOccupied
     {
-        get => isOccupide;
+        get => isOccupied;
         set
         {
-            isOccupide = value;
-            greenParkingSign.SetActive(!isOccupide);
+            isOccupied = value;
+            greenParkingSign.SetActive(!isOccupied);
         }
     }
 }

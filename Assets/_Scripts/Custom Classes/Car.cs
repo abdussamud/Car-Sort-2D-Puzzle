@@ -29,7 +29,7 @@ public class Car : MonoBehaviour
             parkingCell = isPositionMatch ? cell : parkingCell;
             cell.puzzleCar = isPositionMatch ? this : cell.puzzleCar;
         }
-        parkingCell.IsOccupide = true;
+        parkingCell.IsOccupied = true;
     }
 
     public void CreateDust() { foreach (ParticleSystem ps in dust) { ps.Play(); } }

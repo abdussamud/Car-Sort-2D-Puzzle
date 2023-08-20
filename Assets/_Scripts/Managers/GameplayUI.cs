@@ -1,6 +1,6 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameplayUI : MonoBehaviour
 {
@@ -18,13 +18,13 @@ public class GameplayUI : MonoBehaviour
 
     [Header("Game Play")]
     public int levelSelected;
-    public Image GameplayTheme;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI levelMoves;
     public GameObject wrongMoveTextPrompt;
     public GameObject wrongMoveTextPromptParent;
     public GameObject skipAdsButtonInPauseLevel;
     public GameObject skipAdsButtonInFailedLevel;
+    public GameObject[] gameplayThemeGO;
 
     private GameController gc;
     private TouchManager tm;
@@ -39,7 +39,7 @@ public class GameplayUI : MonoBehaviour
         gui = this;
         dm = DataManager.dm;
         gameData = dm.gameData;
-        levelSelected = gameData.unlockedLevel;
+        //levelSelected = gameData.unlockedLevel;
         //levelSelected = GameManager.Instance.currentLevel;
     }
 
@@ -50,22 +50,11 @@ public class GameplayUI : MonoBehaviour
     }
     #endregion
 
-
-    #region Game Play
-    public void SetLevelText()
+    #region Button Call Back
+    public void OnHomeButtonClick()
     {
-        levelText.text = "LEVEL  " + (1 + levelSelected).ToString();
-    }
-
-    public void WrongMoveTextPrompter()
-    {
-        GameObject wrongMoveText = Instantiate(wrongMoveTextPrompt, wrongMoveTextPromptParent.transform);
-
-        if (wrongMoveTextPromptParent.transform.childCount > 3)
-        {
-            Destroy(wrongMoveTextPromptParent.transform.GetChild(3).gameObject);
-        }
-        if (wrongMoveText != null) { Destroy(wrongMoveText, 5f); }
+        GameManager.Instance.nextScene = "Main Menu";
+        SceneManager.LoadScene("Loading");
     }
 
     public void OnGamePlaySettingsExitsButtonClicked()
@@ -75,7 +64,8 @@ public class GameplayUI : MonoBehaviour
 
     public void OnRetryButtonCliked()
     {
-        gc.ResetCarPosition();
+        gc.ClearGame();
+        gc.StartGame();
     }
 
     public void OnPauseButtonClicked()
@@ -85,11 +75,10 @@ public class GameplayUI : MonoBehaviour
 
     public void OnBuyMoveButtonClicked()
     {
+        tm.gameOver = true;
         buyMovePanel.SetActive(true);
     }
-    #endregion
 
-    #region Level Pause
     public void OnResumeButtonClicked()
     {
         tm.gameOver = false;
@@ -100,9 +89,7 @@ public class GameplayUI : MonoBehaviour
     {
         skipLevelPanel.SetActive(true);
     }
-    #endregion
 
-    #region Level Complete
     public void OnReplayButtonClicked()
     {
         tm.gameOver = false;
@@ -117,22 +104,35 @@ public class GameplayUI : MonoBehaviour
         gc.StartGame();
         PanelActivate(gamePlayPanel.name);
     }
-    #endregion
 
-    #region Skip Level
+    public void OnWatchAdsForSkipLevelButtonClick()
+    {
+        BuySkipLevelAdsCompleted();
+    }
+
+    public void BuySkipLevelAdsCompleted()
+    {
+        tm.gameOver = false;
+        if (levelSelected < 9) { levelSelected++; }
+        gc.ClearGame();
+        gc.StartGame();
+        PanelActivate(gamePlayPanel.name);
+        SetLevelText();
+    }
     public void OnPay50GemsToSkipLevelButtonClicked()
     {
-        if (gameData.gems >= 50 && levelSelected < 9 && gameData.unlockedLevel < 9)
+        if (gameData.coins >= 50 && levelSelected < 9 && gameData.level < 9)
         {
             tm.gameOver = false;
-            if (levelSelected < 29) { levelSelected++; }
+            if (levelSelected < 9) { levelSelected++; }
             gc.ClearGame();
             gc.StartGame();
             PanelActivate(gamePlayPanel.name);
-            gameData.gems -= 50;
+            gameData.coins -= 50;
             SaveData();
+            SetLevelText();
         }
-        else if (gameData.gems < 50 && levelSelected < 9 && gameData.unlockedLevel < 9)
+        else if (gameData.coins < 50 && levelSelected < 9 && gameData.level < 9)
         {
             Debug.Log("Less Gems ");
         }
@@ -146,24 +146,42 @@ public class GameplayUI : MonoBehaviour
     {
         skipLevelPanel.SetActive(false);
     }
-    #endregion
 
-    #region Buy Move
+    public void OnWatchAdsForMoveButtonClick()
+    {
+        BuyMovesAdsCompleted();
+    }
+
+    public void BuyMovesAdsCompleted()
+    {
+        buyMovePanel.SetActive(false);
+        tm.moveCount += 3;
+        tm.gameOver = false;
+        UpdateMoveText();
+    }
+
     public void OnPay30GemsToBuy3Moves()
     {
-        if (gameData.gems >= 30)
+        if (gameData.coins >= 5)
         {
             buyMovePanel.SetActive(false);
+            tm.gameOver = false;
             tm.moveCount += 3;
             UpdateMoveText();
-            gameData.gems -= 30;
+            gameData.coins -= 5;
             SaveData();
+        }
+        else
+        {
+            Debug.Log("Dont have enough money!");
         }
     }
 
     public void OnNoThanksOfBuyMovesButtonClicked()
     {
         buyMovePanel.SetActive(false);
+        tm.gameOver = tm.moveCount <= 0;
+        if (tm.moveCount <= 0) { LevelFailed(); }
     }
     #endregion
 
@@ -187,6 +205,11 @@ public class GameplayUI : MonoBehaviour
         gc.ClearGame();
     }
 
+    public void SetLevelText()
+    {
+        levelText.text = "LEVEL  " + (1 + levelSelected).ToString();
+    }
+
     public void UpdateMoveText()
     {
         levelMoves.text = tm.moveCount.ToString();
@@ -206,10 +229,21 @@ public class GameplayUI : MonoBehaviour
     {
         panel.SetActive(false);
     }
+
+    public void WrongMoveTextPrompter()
+    {
+        GameObject wrongMoveText = Instantiate(wrongMoveTextPrompt, wrongMoveTextPromptParent.transform);
+
+        if (wrongMoveTextPromptParent.transform.childCount > 3)
+        {
+            Destroy(wrongMoveTextPromptParent.transform.GetChild(3).gameObject);
+        }
+        if (wrongMoveText != null) { Destroy(wrongMoveText, 5f); }
+    }
+
     #endregion
 
-    private void SaveData()
-    {
-        dm.SaveData();
-    }
+    #region Private Methods
+    private void SaveData() { dm.SaveData(); }
+    #endregion
 }

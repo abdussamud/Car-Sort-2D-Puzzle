@@ -4,18 +4,22 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameData gameData;
+    public int theme;
     public int currentLevel;
     public string nextScene;
-    public GameObject[] carPrefabs;
-    public Sprite[] gameplaySceneBG;
 
     private void Awake()
     {
         Instance = this;
-        currentLevel = gameData.unlockedLevel;
     }
 
-    public void SetNextSceneName(string nextScene)
+    private void Start()
+    {
+        theme = gameData.theme;
+        currentLevel = gameData.level;
+    }
+
+    public void SetNextSceneName(string nextScene = "Main Menu")
     {
         this.nextScene = nextScene;
     }

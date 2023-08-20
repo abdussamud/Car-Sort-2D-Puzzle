@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class GameData : ScriptableObject
 {
-    public int diamonds;
-    public int gems;
-    public int carPrefab;
-    public int unlockedLevel;
-    public int gameplaySceneBG;
-    public bool isSoundOn;
-    public bool isMusicOn;
+    public int coins;
+    public int theme;
+    public int level;
+    public float sound;
+    public float music;
+    public bool removeAds;
     public bool isFirstTime;
-
 
     #region Data from server
     //[Header("Data From Server")]

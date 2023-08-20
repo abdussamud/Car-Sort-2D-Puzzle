@@ -183,6 +183,9 @@ MonoBehaviour:
   carPrefabs:
   - {fileID: 2820302727500607697, guid: d2ef3130197951b42993947a4e9d2810, type: 3}
   gameplaySceneBG:
+  - {fileID: 21300000, guid: 0505f810e2eea0f4f92211db71b5df0a, type: 3}
+  - {fileID: 21300000, guid: bd47edeb17edde045b0730319ee63a2d, type: 3}
+  - {fileID: 21300000, guid: 86fa0d65c88a96943925f2abe1f144db, type: 3}
   - {fileID: 21300000, guid: d267fee7360f0c04c851ed7c35379302, type: 3}
   - {fileID: 21300000, guid: bf119f53c7ae541448e26e05b9d58018, type: 3}
   - {fileID: 21300000, guid: 6eb006bf0a1989f4294453f4fa99f762, type: 3}

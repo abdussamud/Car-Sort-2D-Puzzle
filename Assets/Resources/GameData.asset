@@ -17,6 +17,9 @@ MonoBehaviour:
   carPrefab: 0
   unlockedLevel: 1
   gameplaySceneBG: 0
+  soundValue: 0
+  musicValue: 0
   isSoundOn: 1
-  isMusicOn: 0
-  isFirstTime: 0
+  isMusicOn: 1
+  removeAds: 0
+  isFirstTime: 1

@@ -2,14 +2,13 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Text;
-//using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
     public static DataManager dm;
-
-    [SerializeField] private bool resetData;
+    [SerializeField]
+    private bool resetData;
     public GameData gameData;
     private string filePath;
 
@@ -26,7 +25,7 @@ public class DataManager : MonoBehaviour
     {
         string json = JsonConvert.SerializeObject(gameData);
         File.WriteAllText(filePath, json, encoding: Encoding.UTF32);
-        Debug.Log("Data Saved");
+        //Debug.Log("Data Saved");
     }
 
     private void LoadData()
@@ -34,24 +33,24 @@ public class DataManager : MonoBehaviour
         string json = File.ReadAllText(filePath, encoding: Encoding.UTF32);
         GameData loadedData = JsonConvert.DeserializeObject<GameData>(json);
 
-        gameData.isSoundOn = loadedData.isSoundOn;
-        gameData.isMusicOn = loadedData.isMusicOn;
+        gameData.coins = loadedData.coins;
+        gameData.sound = loadedData.sound;
+        gameData.music = loadedData.music;
+        gameData.level = loadedData.level;
+        gameData.theme = loadedData.theme;
+        gameData.removeAds = loadedData.removeAds;
         gameData.isFirstTime = loadedData.isFirstTime;
-        gameData.diamonds = loadedData.diamonds;
-        gameData.carPrefab = loadedData.carPrefab;
-        gameData.unlockedLevel = loadedData.unlockedLevel;
-        gameData.gameplaySceneBG = loadedData.gameplaySceneBG;
-        Debug.Log("Data Loaded");
+        //Debug.Log("Data Loaded");
     }
 
     private void ResetData()
     {
-        gameData.diamonds = 0;
-        gameData.carPrefab = 0;
-        gameData.unlockedLevel = 0;
-        gameData.gameplaySceneBG = 0;
-        gameData.isSoundOn = true;
-        gameData.isMusicOn = true;
+        gameData.coins = 0;
+        gameData.level = 0;
+        gameData.theme = 0;
+        gameData.sound = 1f;
+        gameData.music = 1f;
+        gameData.removeAds = false;
         gameData.isFirstTime = true;
         SaveData();
     }

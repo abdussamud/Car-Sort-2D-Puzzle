@@ -53,15 +53,15 @@ public class TouchManager : MonoBehaviour
         {
             rayHit = Cast2DRay;
             hitCell = Cast2DRayForCell;
-            if (hitCell.collider && hitCell.collider.CompareTag("CarPosCell") && !hitCell.collider.GetComponent<Cell>().IsOccupide)
+            if (hitCell.collider && hitCell.collider.CompareTag("CarPosCell") && !hitCell.collider.GetComponent<Cell>().IsOccupied)
             {
                 float deltaX = Mathf.Clamp(Mathf.Abs(hitCell.collider.transform.position.x - selectedObject.transform.position.x), 0, 5);
                 float deltaY = Mathf.Clamp(Mathf.Abs(hitCell.collider.transform.position.y - selectedObject.transform.position.y), 0, 5);
-                if (deltaX <= 1.2f && deltaY <= 2.4f &&
+                if (deltaX <= 1.2f && deltaY <= 2.5f &&
                     (((deltaX = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0) ||
                     (deltaX > 0 && (deltaY = deltaY <= 0.01f ? (int)deltaY : deltaY) == 0)))
                 {
-                    oldParkingCell.IsOccupide = false;
+                    oldParkingCell.IsOccupied = false;
                     oldParkingCell.puzzleCar = null;
                     desiredPosition = hitCell.collider.gameObject.transform.position;
                     if ((_ = deltaX <= 0.01f ? (int)deltaX : deltaX) == 0 && deltaY > 0)
@@ -131,6 +131,7 @@ public class TouchManager : MonoBehaviour
                 return false;
             }
         }
+        gameOver = true;
         gc.EndGameDelay();
         return true;
     }
@@ -152,7 +153,7 @@ public class TouchManager : MonoBehaviour
         selectedObject.transform.position = endPos;
         selectedObject.transform.GetComponent<Car>().SetParkingCell();
         oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
-        oldParkingCell.IsOccupide = true;
+        oldParkingCell.IsOccupied = true;
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
         selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
@@ -162,18 +163,19 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
+            gameplayUI.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            //UIManager.Instance.LevelFailed();
             moveCount--;
+            gameplayUI.UpdateMoveText();
+            gameplayUI.buyMovePanel.SetActive(true);
         }
     }
 
     private IEnumerator MoveToLeft()
     {
-        Debug.Log("MoveToLeft");
         Vector3 startPos = selectedObject.transform.position;
         Vector3 endPos = desiredPosition;
         Vector3 startPos1 = new(startPos.x, startPos.y + 0.7f, startPos.z);
@@ -242,7 +244,7 @@ public class TouchManager : MonoBehaviour
         selectedObject.transform.position = endPos;
         selectedObject.transform.GetComponent<Car>().SetParkingCell();
         oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
-        oldParkingCell.IsOccupide = true;
+        oldParkingCell.IsOccupied = true;
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
         selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
@@ -252,18 +254,19 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
+            gameplayUI.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            //UIManager.Instance.LevelFailed();
             moveCount--;
+            gameplayUI.UpdateMoveText();
+            gameplayUI.buyMovePanel.SetActive(true);
         }
     }
 
     private IEnumerator MoveToRight()
     {
-        Debug.Log("MoveToRight");
         Vector3 startPos = selectedObject.transform.position;
         Vector3 endPos = desiredPosition;
         Vector3 startPos1 = new(startPos.x, startPos.y + 0.7f, startPos.z);
@@ -332,7 +335,7 @@ public class TouchManager : MonoBehaviour
         selectedObject.transform.position = endPos;
         selectedObject.transform.GetComponent<Car>().SetParkingCell();
         oldParkingCell = selectedObject.transform.GetComponent<Car>().GetParkingCell;
-        oldParkingCell.IsOccupide = true;
+        oldParkingCell.IsOccupied = true;
         selectedObject.GetComponent<Car>().carLights.SetActive(false);
         selectedObject.GetComponent<Car>().ClearDust();
         selectedObject = null;
@@ -342,12 +345,14 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
+            gameplayUI.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
-            //UIManager.Instance.LevelFailed();
             moveCount--;
+            gameplayUI.UpdateMoveText();
+            gameplayUI.buyMovePanel.SetActive(true);
         }
     }
     #endregion

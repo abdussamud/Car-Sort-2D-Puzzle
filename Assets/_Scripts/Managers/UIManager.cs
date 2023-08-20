@@ -29,26 +29,6 @@ public class UIManager : MonoBehaviour
         dm = DataManager.dm;
         gd = dm.gameData;
     }
-
-    private void Start()
-    {
-        if (gd.isSoundOn)
-        {
-            SoundOn();
-        }
-        else
-        {
-            SoundOff();
-        }
-        if (gd.isMusicOn)
-        {
-            MusicOn();
-        }
-        else
-        {
-            MusicOff();
-        }
-    }
     #endregion
 
     #region Main Menu
@@ -80,32 +60,6 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Settings
-    public void SoundOn()
-    {
-        _ = audioMixer.SetFloat("SFX", -3);
-        _ = audioMixer.SetFloat("Ui", -3);
-        gd.isSoundOn = true;
-        SaveData();
-    }
-    public void SoundOff()
-    {
-        _ = audioMixer.SetFloat("SFX", -80);
-        _ = audioMixer.SetFloat("Ui", -80);
-        gd.isSoundOn = false;
-        SaveData();
-    }
-    public void MusicOn()
-    {
-        _ = audioMixer.SetFloat("BGM", -3);
-        gd.isMusicOn = true;
-        SaveData();
-    }
-    public void MusicOff()
-    {
-        _ = audioMixer.SetFloat("BGM", -80);
-        gd.isMusicOn = false;
-        SaveData();
-    }
     #endregion
 
     #region Public Methods

@@ -3,28 +3,28 @@ using UnityEngine;
 
 public class Row : MonoBehaviour
 {
-    [HideInInspector] public List<Cell> cellsHavingCar = new();
     public Cell[] rowCells;
     public int rowNumber;
 
     public bool IsCarColorSameInRow()
     {
+        int firstCarCode = -1;
+
         foreach (Cell cell in rowCells)
         {
-            if (cell.isOccupide)
+            if (cell.isOccupied)
             {
-                cellsHavingCar.Add(cell);
+                if (firstCarCode == -1)
+                {
+                    firstCarCode = cell.puzzleCar.carCode;
+                }
+                else if (cell.puzzleCar.carCode != firstCarCode)
+                {
+                    return false;
+                }
             }
         }
-        int firstCarCode = cellsHavingCar[0].puzzleCar.carCode;
-        foreach (Cell cell in cellsHavingCar)
-        {
-            if (cell.puzzleCar.carCode != firstCarCode)
-            {
-                cellsHavingCar.Clear(); return false;
-            }
-        }
-        cellsHavingCar.Clear();
+
         return true;
     }
 }
