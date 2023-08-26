@@ -24,7 +24,7 @@ public class DataManager : MonoBehaviour
     public void SaveData()
     {
         string json = JsonConvert.SerializeObject(gameData);
-        File.WriteAllText(filePath, json, encoding: Encoding.UTF32);
+        File.WriteAllText(filePath, json);//, encoding: Encoding.UTF32);
         //Debug.Log("Data Saved");
     }
 

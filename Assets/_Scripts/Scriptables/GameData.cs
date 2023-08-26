@@ -12,6 +12,7 @@ public class GameData : ScriptableObject
     public float music;
     public bool removeAds;
     public bool isFirstTime;
+    public bool allLevel;
 
     #region Data from server
     //[Header("Data From Server")]

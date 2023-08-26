@@ -1,18 +1,22 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class MainMenuUI : MonoBehaviour
 {
     #region Fields
-    public static UIManager mui;
+    public static MainMenuUI mui;
 
     [Header("UI Panels")]
     public GameObject mainMenuPanel;
     public GameObject exitGamePanel;
     public GameObject settingsPanel;
     public GameObject rateUsPanel;
+    public GameObject levelSelectionPanel;
     public GameObject[] panelsArray;
+    public Button[] levelButtons;
+    public GameObject[] levelButtonParticals;
 
     [Header("Settings")]
     public AudioMixer audioMixer;
@@ -21,7 +25,6 @@ public class UIManager : MonoBehaviour
     private GameData gd;
     #endregion
 
-
     #region Unity Methods
     private void Awake()
     {
@@ -29,16 +32,33 @@ public class UIManager : MonoBehaviour
         dm = DataManager.dm;
         gd = dm.gameData;
     }
+
+    private void Start()
+    {
+        for (int i = 0; i <= gd.level; i++)
+        {
+            levelButtons[i].interactable = true;
+        }
+        levelButtonParticals[gd.level].SetActive(true);
+    }
     #endregion
 
     #region Main Menu
     public void OnGameExitButtonClicked()
     {
         PanelActivate(exitGamePanel.name);
+        AdsManager.Instance.SetBannerPosition();
+        AdsManager.Instance.ShowBanner();
     }
 
     public void OnStartButtonClicked()
     {
+        levelSelectionPanel.SetActive(true);
+    }
+
+    public void OnLevelSelectButton(int level)
+    {
+        GameManager.Instance.level = level;
         GameManager.Instance.nextScene = "Game Play";
         SceneManager.LoadScene("Loading");
     }
@@ -60,6 +80,10 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Settings
+    public void PlaySound(string soundName)
+    {
+        AudioManager.am.Play(soundName);
+    }
     #endregion
 
     #region Public Methods

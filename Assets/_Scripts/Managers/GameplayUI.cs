@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -14,22 +15,28 @@ public class GameplayUI : MonoBehaviour
     public GameObject levelFailedPanel;
     public GameObject skipLevelPanel;
     public GameObject buyMovePanel;
+    public GameObject notEnoughCoinsPanel;
     public GameObject[] panelsArray;
 
     [Header("Game Play")]
     public int levelSelected;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI levelMoves;
+    public GameObject winParticalsGO;
+    public GameObject buyMoveLoaderGO;
     public GameObject wrongMoveTextPrompt;
     public GameObject wrongMoveTextPromptParent;
     public GameObject skipAdsButtonInPauseLevel;
     public GameObject skipAdsButtonInFailedLevel;
     public GameObject[] gameplayThemeGO;
 
-    private GameController gc;
-    private TouchManager tm;
-    private DataManager dm;
-    private GameData gameData;
+    [Header("Ads")]
+    public int skipLevelOrBuyMoves;
+
+    private GameData gd;
+    private GameController Gc => GameController.gc;
+    private TouchManager Tm => TouchManager.tm;
+    private GameManager Gm => GameManager.Instance;
     #endregion
 
 
@@ -37,16 +44,7 @@ public class GameplayUI : MonoBehaviour
     private void Awake()
     {
         gui = this;
-        dm = DataManager.dm;
-        gameData = dm.gameData;
-        //levelSelected = gameData.unlockedLevel;
-        //levelSelected = GameManager.Instance.currentLevel;
-    }
-
-    private void Start()
-    {
-        tm = TouchManager.tm;
-        gc = GameController.gc;
+        gd = DataManager.dm.gameData;
     }
     #endregion
 
@@ -64,8 +62,9 @@ public class GameplayUI : MonoBehaviour
 
     public void OnRetryButtonCliked()
     {
-        gc.ClearGame();
-        gc.StartGame();
+        Gc.ClearGame();
+        Gc.StartGame();
+        PanelActivate(gamePlayPanel.name);
     }
 
     public void OnPauseButtonClicked()
@@ -75,13 +74,15 @@ public class GameplayUI : MonoBehaviour
 
     public void OnBuyMoveButtonClicked()
     {
-        tm.gameOver = true;
+        Tm.gameOver = true;
         buyMovePanel.SetActive(true);
+        buyMoveLoaderGO.SetActive(true);
+        Invoke(nameof(DisableBuyMovesLoader), 1.5f);
     }
 
     public void OnResumeButtonClicked()
     {
-        tm.gameOver = false;
+        Tm.gameOver = false;
         PanelActivate(gamePlayPanel.name);
     }
 
@@ -92,49 +93,60 @@ public class GameplayUI : MonoBehaviour
 
     public void OnReplayButtonClicked()
     {
-        tm.gameOver = false;
+        Tm.gameOver = false;
         PanelActivate(gamePlayPanel.name);
-        gc.StartGame();
+        Gc.StartGame(Gm.level);
     }
 
     public void OnNextLevelButtonClicked()
     {
-        tm.gameOver = false;
-        if (levelSelected < 9) { levelSelected++; }
-        gc.StartGame();
+        Tm.gameOver = false;
+        Gm.level++;
+        Gc.StartGame(Gm.level);
         PanelActivate(gamePlayPanel.name);
     }
 
     public void OnWatchAdsForSkipLevelButtonClick()
     {
-        BuySkipLevelAdsCompleted();
+        skipLevelOrBuyMoves = 0;
+        AdsManager.Instance.ShowRewardedVideoUnity();
+        //BuySkipLevelAdsCompleted();
+    }
+
+    public void AdsWatchedCompleted()
+    {
+        (skipLevelOrBuyMoves == 0 ? (Action)BuySkipLevelAdsCompleted : BuyMovesAdsCompleted)();
     }
 
     public void BuySkipLevelAdsCompleted()
     {
-        tm.gameOver = false;
-        if (levelSelected < 9) { levelSelected++; }
-        gc.ClearGame();
-        gc.StartGame();
+        Tm.gameOver = false;
+        gd.level++;
+        SaveData();
+        Gm.level++;
+        Gc.ClearGame();
+        Gc.StartGame(Gm.level);
         PanelActivate(gamePlayPanel.name);
         SetLevelText();
     }
     public void OnPay50GemsToSkipLevelButtonClicked()
     {
-        if (gameData.coins >= 50 && levelSelected < 9 && gameData.level < 9)
+        if (gd.coins >= 15 && levelSelected < Gc.maxLevels && gd.level < Gc.maxLevels)
         {
-            tm.gameOver = false;
-            if (levelSelected < 9) { levelSelected++; }
-            gc.ClearGame();
-            gc.StartGame();
-            PanelActivate(gamePlayPanel.name);
-            gameData.coins -= 50;
+            Tm.gameOver = false;
+            gd.level++;
+            gd.coins -= 15;
             SaveData();
+            Gm.level++;
+            Gc.ClearGame();
+            Gc.StartGame(Gm.level);
+            PanelActivate(gamePlayPanel.name);
             SetLevelText();
         }
-        else if (gameData.coins < 50 && levelSelected < 9 && gameData.level < 9)
+        else if (gd.coins < 15 && levelSelected < Gc.maxLevels && gd.level < Gc.maxLevels)
         {
-            Debug.Log("Less Gems ");
+            notEnoughCoinsPanel.SetActive(true);
+            Invoke(nameof(DisableNotEnoughPanel), 2f);
         }
         else
         {
@@ -149,39 +161,42 @@ public class GameplayUI : MonoBehaviour
 
     public void OnWatchAdsForMoveButtonClick()
     {
-        BuyMovesAdsCompleted();
+        skipLevelOrBuyMoves = 1;
+        AdsManager.Instance.ShowRewardedVideoUnity();
+        //BuyMovesAdsCompleted();
     }
 
     public void BuyMovesAdsCompleted()
     {
         buyMovePanel.SetActive(false);
-        tm.moveCount += 3;
-        tm.gameOver = false;
+        Tm.moveCount += 3;
+        Tm.gameOver = false;
         UpdateMoveText();
     }
 
     public void OnPay30GemsToBuy3Moves()
     {
-        if (gameData.coins >= 5)
+        if (gd.coins >= 5)
         {
             buyMovePanel.SetActive(false);
-            tm.gameOver = false;
-            tm.moveCount += 3;
+            Tm.gameOver = false;
+            Tm.moveCount += 3;
             UpdateMoveText();
-            gameData.coins -= 5;
+            gd.coins -= 5;
             SaveData();
         }
         else
         {
-            Debug.Log("Dont have enough money!");
+            notEnoughCoinsPanel.SetActive(true);
+            Invoke(nameof(DisableNotEnoughPanel), 2f);
         }
     }
 
     public void OnNoThanksOfBuyMovesButtonClicked()
     {
         buyMovePanel.SetActive(false);
-        tm.gameOver = tm.moveCount <= 0;
-        if (tm.moveCount <= 0) { LevelFailed(); }
+        Tm.gameOver = Tm.moveCount <= 0;
+        if (Tm.moveCount <= 0) { LevelFailed(); }
     }
     #endregion
 
@@ -202,17 +217,18 @@ public class GameplayUI : MonoBehaviour
     public void LevelFailed()
     {
         PanelActivate(levelFailedPanel.name);
-        gc.ClearGame();
+        Gc.ClearGame();
+        if (!gd.removeAds) { AdsManager.Instance.LevelCompleted(); }
     }
 
     public void SetLevelText()
     {
-        levelText.text = "LEVEL  " + (1 + levelSelected).ToString();
+        levelText.text = "LEVEL  " + (1 + Gm.level).ToString();
     }
 
     public void UpdateMoveText()
     {
-        levelMoves.text = tm.moveCount.ToString();
+        levelMoves.text = Tm.moveCount.ToString();
     }
 
     public void PrivacyButton()
@@ -241,9 +257,30 @@ public class GameplayUI : MonoBehaviour
         if (wrongMoveText != null) { Destroy(wrongMoveText, 5f); }
     }
 
+    public void PlaySound(string soundName)
+    {
+        AudioManager.am.Play(soundName);
+    }
+
+    public void ActivateBuyMoves()
+    {
+        buyMovePanel.SetActive(true);
+        buyMoveLoaderGO.SetActive(true);
+        Invoke(nameof(DisableBuyMovesLoader), 1.5f);
+    }
     #endregion
 
     #region Private Methods
-    private void SaveData() { dm.SaveData(); }
+    private void DisableNotEnoughPanel()
+    {
+        notEnoughCoinsPanel.SetActive(false);
+    }
+
+    private void SaveData() { DataManager.dm.SaveData(); }
+
+    private void DisableBuyMovesLoader()
+    {
+        buyMoveLoaderGO.SetActive(false);
+    }
     #endregion
 }

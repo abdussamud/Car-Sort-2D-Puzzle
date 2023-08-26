@@ -178,17 +178,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: 65f9c203de7fe7042a7ee0a9cf23d90d, type: 2}
-  currentLevel: 0
+  startLoadingDone: 0
+  theme: 0
+  level: 0
   nextScene: 
-  carPrefabs:
-  - {fileID: 2820302727500607697, guid: d2ef3130197951b42993947a4e9d2810, type: 3}
-  gameplaySceneBG:
-  - {fileID: 21300000, guid: 0505f810e2eea0f4f92211db71b5df0a, type: 3}
-  - {fileID: 21300000, guid: bd47edeb17edde045b0730319ee63a2d, type: 3}
-  - {fileID: 21300000, guid: 86fa0d65c88a96943925f2abe1f144db, type: 3}
-  - {fileID: 21300000, guid: d267fee7360f0c04c851ed7c35379302, type: 3}
-  - {fileID: 21300000, guid: bf119f53c7ae541448e26e05b9d58018, type: 3}
-  - {fileID: 21300000, guid: 6eb006bf0a1989f4294453f4fa99f762, type: 3}
 --- !u!1 &2847550875851367790
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,6 +272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6553634356230351398}
+  - component: {fileID: 581195103969929705}
   m_Layer: 0
   m_Name: Ads Manager
   m_TagString: Untagged
@@ -301,3 +295,24 @@ Transform:
   m_Father: {fileID: 4527190772638184605}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &581195103969929705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8017310843628629050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8d450f6d154eb34e9dd748bb3cdff37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  singleton: 0
+  _testMode: 0
+  _androidGameId: 5390758
+  _iOSGameId: 5390759
+  _androidAdUnitId: Interstitial_Android
+  _iOSAdUnitId: Interstitial_iOS
+  RewardedPlacementId: Rewarded_Android
+  BannerPlacementId: Banner_Android
+  BannerAdPosition: 0

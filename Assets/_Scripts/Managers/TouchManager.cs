@@ -21,20 +21,12 @@ public class TouchManager : MonoBehaviour
     private const float DURATION = 0.3f;
     private const float DURATION1 = 0.15f;
     private Vector3 desiredPosition;
-    private GameController gc;
-    private GameplayUI gameplayUI;
     #endregion
 
     #region Unity Methods
     private void Awake()
     {
         tm = this;
-    }
-
-    private void Start()
-    {
-        gc = GameController.gc;
-        gameplayUI = GameplayUI.gui;
     }
 
     private void Update()
@@ -92,7 +84,7 @@ public class TouchManager : MonoBehaviour
                 }
                 else
                 {
-                    gameplayUI.WrongMoveTextPrompter();
+                    GameplayUI.gui.WrongMoveTextPrompter();
                     AudioManager.am.Play("Wrong");
                 }
             }
@@ -132,7 +124,7 @@ public class TouchManager : MonoBehaviour
             }
         }
         gameOver = true;
-        gc.EndGameDelay();
+        GameController.gc.EndGameDelay();
         return true;
     }
 
@@ -163,14 +155,14 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
-            gameplayUI.UpdateMoveText();
+            GameplayUI.gui.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
             moveCount--;
-            gameplayUI.UpdateMoveText();
-            gameplayUI.buyMovePanel.SetActive(true);
+            GameplayUI.gui.UpdateMoveText();
+            GameplayUI.gui.ActivateBuyMoves();
         }
     }
 
@@ -254,14 +246,14 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
-            gameplayUI.UpdateMoveText();
+            GameplayUI.gui.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
             moveCount--;
-            gameplayUI.UpdateMoveText();
-            gameplayUI.buyMovePanel.SetActive(true);
+            GameplayUI.gui.UpdateMoveText();
+            GameplayUI.gui.ActivateBuyMoves();
         }
     }
 
@@ -345,14 +337,14 @@ public class TouchManager : MonoBehaviour
         {
             gameOver = false;
             moveCount--;
-            gameplayUI.UpdateMoveText();
+            GameplayUI.gui.UpdateMoveText();
             CheckWiningConditions();
         }
         else if (!CheckWiningConditions())
         {
             moveCount--;
-            gameplayUI.UpdateMoveText();
-            gameplayUI.buyMovePanel.SetActive(true);
+            GameplayUI.gui.UpdateMoveText();
+            GameplayUI.gui.ActivateBuyMoves();
         }
     }
     #endregion
